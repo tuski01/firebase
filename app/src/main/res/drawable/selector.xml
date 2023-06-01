@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <vector xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="14dp"
+            android:height="20dp"
+            android:viewportWidth="14"
+            android:viewportHeight="20">
+            <path
+                android:fillColor="#c4c4c4"
+                android:pathData="M13.67 17.65L5.43 10l8.24-7.65L11.13 0 0.33 10l10.8 10 2.54-2.35Z"/>
+        </vector>
+    </item>
+
+    <!-- 버튼이 안 눌렸을 때(디폴트) -->
+    <item android:state_pressed="false">
+        <vector xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="14dp"
+            android:height="20dp"
+            android:viewportWidth="14"
+            android:viewportHeight="20">
+            <path
+                android:fillColor="#ffffff"
+                android:pathData="M13.67 17.65L5.43 10l8.24-7.65L11.13 0 0.33 10l10.8 10 2.54-2.35Z"/>
+        </vector>
+    </item>
+
+</selector>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home"
+        android:icon="@drawable/homeicon"
+        android:enabled="true"
+        android:title="홈화면"/>
+        <!--android:title="@string/menu_title_home"-->
+
+    <item android:id="@+id/chatList"
+        android:icon="@drawable/chaticon"
+        android:enabled="true"
+        android:checked="true"
+        android:title="채팅"/>
+        <!--android:title="@string/menu_title_chating"-->
+
+    <item android:id="@+id/map"
+        android:icon="@drawable/mapicon"
+        android:enabled="true"
+        android:title="지도"/>
+        <!--android:title="@string/menu_title_map"-->
+
+    <item android:id="@+id/myPage"
+        android:icon="@drawable/mypageicon"
+        android:enabled="true"
+        android:title="마이페이지"/>
+        <!--android:title="@string/menu_title_myInfo"-->
+
+</menu>
