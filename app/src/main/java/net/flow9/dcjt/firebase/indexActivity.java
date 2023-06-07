@@ -25,11 +25,14 @@ public class indexActivity extends AppCompatActivity {
     private chatActivity ca;
     private mapActivity  mapa;
     private myPageActivity mypa;
+    private myPageActivity2 mypa2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
+
+
 
         bottom_Navigatrion_View = findViewById(R.id.bottomNavi);
         bottom_Navigatrion_View.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,7 +49,11 @@ public class indexActivity extends AppCompatActivity {
                         setFrag(2);
                         break;
                     case R.id.action_MyPage:
-                        setFrag(3);
+                        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+                            setFrag(3);
+                        } else {
+                            setFrag(4);
+                        }
                         break;
                 }
                 return true;
@@ -56,6 +63,7 @@ public class indexActivity extends AppCompatActivity {
         ca = new chatActivity();
         mapa = new mapActivity();
         mypa = new myPageActivity();
+        mypa2 = new myPageActivity2();
         setFrag(0);
     }
 
@@ -80,9 +88,16 @@ public class indexActivity extends AppCompatActivity {
                 ft.replace(R.id.main_frame, mypa);
                 ft.commit();
                 break;
+            case 4:
+                ft.replace(R.id.main_frame, mypa2);
+                ft.commit();
+                break;
         }
-
     }
-
-
+    @Override public void onBackPressed(){
+        super.onBackPressed();
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
+    }
 }

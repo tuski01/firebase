@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -44,20 +45,26 @@ public class LoginActivity extends AppCompatActivity {
                 String strEmail = mEtEmail.getText().toString();
                 String strPwd = mEtPwd.getText().toString();
 
-                mFirebaseAuth.signInWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            // 로그인 성공
-                            Intent intent = new Intent(LoginActivity.this, indexActivity.class);
-                            startActivity(intent);
-                            finish(); // 현재 액티비티 종료
-                        } else {
-                            // 로그인 실패
-                            Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
+                if(strEmail.length() > 0 && strPwd.length() > 0) {
+                    mFirebaseAuth.signInWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // 로그인 성공
+                                FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                                startToast("로그인 성공");
+                                Intent intent = new Intent(LoginActivity.this, indexActivity.class);
+                                startActivity(intent);
+                                finish(); // 현재 액티비티 종료
+                            } else {
+                                // 로그인 실패
+                                if(task.getException() != null){
+                                    startToast(task.getException().toString());
+                                }
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 
@@ -72,4 +79,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    private void startToast(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
 }
