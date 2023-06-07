@@ -41,6 +41,7 @@ public class uploadActivity extends AppCompatActivity {
     private Uri mImageUri;
 
 
+
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
 

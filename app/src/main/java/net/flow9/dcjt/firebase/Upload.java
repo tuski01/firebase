@@ -33,4 +33,5 @@ public class Upload {
         mImageUrl = imageUrl;
     }
 
+
 }
