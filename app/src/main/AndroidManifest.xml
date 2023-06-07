@@ -18,13 +18,9 @@
 
         <activity
             android:name=".indexActivity"
-            android:exported="true">
+            android:exported="false">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
 
@@ -54,6 +50,14 @@
         <activity
             android:name=".logout_Activity"
             android:exported="false">
+        </activity>
+        <activity android:name=".uploadActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
     </application>
