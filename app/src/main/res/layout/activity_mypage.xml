@@ -91,11 +91,16 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:text="로그아웃"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/find_Object_list3" />
+            android:text="로그인" />
     </LinearLayout>
 
 
