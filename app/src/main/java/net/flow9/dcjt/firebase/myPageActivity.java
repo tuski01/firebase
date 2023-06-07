@@ -12,10 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 public class myPageActivity extends Fragment implements View.OnClickListener{
     private View view;
-    private TextView btn_find_lost_Object_list, btn_qna, btn_member_update, btn_logout;
+    private TextView btn_find_lost_Object_list, btn_qna, btn_member_update, btn_logout, btn_login, nickname;
 
     @Nullable
     @Override
@@ -26,11 +32,14 @@ public class myPageActivity extends Fragment implements View.OnClickListener{
         btn_qna = view.findViewById(R.id.btn_qna);
         btn_member_update = view.findViewById(R.id.btn_member_update);
         btn_logout = view.findViewById(R.id.btn_logout);
+        btn_login = view.findViewById(R.id.btn_login);
+        nickname = view.findViewById(R.id.nickname);
 
         btn_find_lost_Object_list.setOnClickListener(this);
         btn_qna.setOnClickListener(this);
         btn_member_update.setOnClickListener(this);
         btn_logout.setOnClickListener(this);
+        btn_login.setOnClickListener(this);
 
         return view;
     }
@@ -57,6 +66,27 @@ public class myPageActivity extends Fragment implements View.OnClickListener{
                 Intent intent3 = new Intent(getActivity(), logout_Activity.class);
                 startActivity(intent3);
                 break;
+            case R.id.btn_login:
+                Intent intent4 = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent4);
+                break;
         }
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String value = snapshot.getValue(String.class);
+                nickname.setText(value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }

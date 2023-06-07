@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="25"
-        android:hint="2019136166@gmail.com"
+        android:hint="email"
         android:inputType="textEmailAddress"
         android:textColorHint="#c4c4c4"
         android:textSize="12dp"
@@ -66,11 +66,11 @@
         app:layout_constraintVertical_bias="0.201" />
 
     <EditText
-        android:id="@+id/e_passcheck"
+        android:id="@+id/e_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="25"
-        android:hint="입력한 PASSWORD를 재입력해주세요"
+        android:hint="사용할 닉네임을 입력해주세요"
         android:inputType="text"
         android:textColorHint="#c4c4c4"
         android:textSize="12dp"
@@ -98,10 +98,10 @@
         app:layout_constraintVertical_bias="0.387" />
 
     <TextView
-        android:id="@+id/t_passok"
+        android:id="@+id/t_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PASSWORD 확인"
+        android:text="NICKNAME"
         android:textColor="#191919"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"

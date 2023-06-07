@@ -22,7 +22,7 @@ public class joinActivity extends AppCompatActivity {
 
         private FirebaseAuth mFirebaseAuth; // 파이어 베이스 인증
         private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
-        private EditText E_Email, E_Pass, E_PassCheck;      // 로그인 입력필드
+        private EditText E_Email, E_Pass, E_Nickname;      // 로그인 입력필드
 
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class joinActivity extends AppCompatActivity {
 
             E_Email = findViewById(R.id.e_email);
             E_Pass = findViewById(R.id.e_password);
-            E_PassCheck = findViewById(R.id.e_passcheck);
+            E_Nickname = findViewById(R.id.e_nickname);
 
             Button b_confirm = findViewById(R.id.b_confirm);
             b_confirm.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +42,7 @@ public class joinActivity extends AppCompatActivity {
                     // 회원가입 처리 시작
                     String strEmail = E_Email.getText().toString();
                     String strPwd = E_Pass.getText().toString();
+                    String strNick = E_Nickname.getText().toString();
 
                     // Firebase Auth 진행
                     mFirebaseAuth.createUserWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(joinActivity.this, new OnCompleteListener<AuthResult>() {
@@ -54,6 +55,7 @@ public class joinActivity extends AppCompatActivity {
                                 account.setIdToken(firebaseUser.getUid());
                                 account.setEmailId(firebaseUser.getEmail());
                                 account.setPassword(strPwd);
+                                account.setNickname(strNick);
 
                                 // setValue : database에 insert 하는 행위1
                                 mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
