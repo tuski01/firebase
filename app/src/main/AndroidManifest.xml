@@ -19,12 +19,12 @@
         <activity
             android:name=".indexActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity
@@ -50,6 +50,12 @@
         <activity
             android:name=".member_update_Activity"
             android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".uploadActivity"
+            android:exported="false">
+
         </activity>
 
     </application>
