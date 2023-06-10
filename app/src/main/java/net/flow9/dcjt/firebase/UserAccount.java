@@ -9,7 +9,34 @@ public class UserAccount {
     private String emailId; // 이메일 아이디
     private String password; // 비밀번호
     private String nickname; // 닉네임
+    private String phone; // 전화번호
+    private String name; // 이름
+    private String address; // 주소
 
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public UserAccount() { }
 

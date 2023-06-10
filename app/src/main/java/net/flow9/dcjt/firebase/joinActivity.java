@@ -22,7 +22,7 @@ public class joinActivity extends AppCompatActivity {
 
         private FirebaseAuth mFirebaseAuth; // 파이어 베이스 인증
         private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
-        private EditText E_Email, E_Pass, E_Nickname, E_Password_check;      // 로그인 입력필드
+        private EditText E_Email, E_Pass, E_Nickname, E_Password_check, E_Phone, E_Name, E_Address;      // 로그인 입력필드
 
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -35,6 +35,9 @@ public class joinActivity extends AppCompatActivity {
             E_Pass = findViewById(R.id.e_password);
             E_Nickname = findViewById(R.id.e_nickname);
             E_Password_check = findViewById(R.id.e_password_check);
+            E_Phone = findViewById(R.id.e_phone);
+            E_Address = findViewById(R.id.e_address);
+            E_Name = findViewById(R.id.e_name);
 
 
 
@@ -46,9 +49,12 @@ public class joinActivity extends AppCompatActivity {
                     String strEmail = E_Email.getText().toString();
                     String strPwd = E_Pass.getText().toString();
                     String strPwdCheck = E_Password_check.getText().toString();
+                    String strName = E_Name.getText().toString();
+                    String strPhone = E_Phone.getText().toString();
+                    String strAddress = E_Address.getText().toString();
                     String strNick = E_Nickname.getText().toString();
 
-                    if (strEmail.length() > 0 && strPwd.length() > 0 && strPwdCheck.length() > 0 && strNick.length() > 0) {
+                    if (strEmail.length() > 0 && strPwd.length() > 0 && strPwdCheck.length() > 0 && strNick.length() > 0 && strName.length() > 0 && strPhone.length() > 9 && strAddress.length() > 0) {
                         if (strPwd.equals(strPwdCheck)) {
                             // Firebase Auth 진행
                             mFirebaseAuth.createUserWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(joinActivity.this, new OnCompleteListener<AuthResult>() {
@@ -62,14 +68,17 @@ public class joinActivity extends AppCompatActivity {
                                         account.setEmailId(firebaseUser.getEmail());
                                         account.setPassword(strPwd);
                                         account.setNickname(strNick);
+                                        account.setName(strName);
+                                        account.setAddress(strAddress);
+                                        account.setPhone(strPhone);
+
 
                                         // setValue : database에 insert 하는 행위1
                                         mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
 
                                         startToast("회원 가입 완료");
-                                        Intent intent = new Intent(joinActivity.this, LoginActivity.class);
+                                        Intent intent = new Intent(joinActivity.this, uploadActivity.class);
                                         startActivity(intent);
-                                        finish();
                                     } else {
                                         if (task.getException() != null) {
                                             startToast(task.getException().toString());

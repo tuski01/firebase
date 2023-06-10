@@ -38,27 +38,11 @@ public class member_update_Activity extends AppCompatActivity {
 
 
         if(ePhone.length() > 0 && eDate.length() > 0 && eAddress.length() > 0) {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-            UserProfileChangeRequest profileupdates = new UserProfileChangeRequest.Builder()
-                    .setDisplayName("Jane Q. user")
-                    .build();
-
-            if (user != null) {
-                user.updateProfile(profileupdates)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    startToast("회원정보 수정이 완료되었습니다.");
-                                }
-                            }
-                        });
             } else {
                 startToast("회원정보를 입력해주세요");
             }
         }
-    }
 
     private void startToast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
