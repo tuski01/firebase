@@ -13,11 +13,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 
 public class myPageActivity2 extends Fragment implements View.OnClickListener{
@@ -33,7 +37,7 @@ public class myPageActivity2 extends Fragment implements View.OnClickListener{
         btn_qna = view.findViewById(R.id.btn_qna);
         btn_member_update = view.findViewById(R.id.btn_member_update);
         btn_logout = view.findViewById(R.id.btn_logout);
-        nickname = view.findViewById(R.id.nickname);
+        nickname = (TextView) view.findViewById(R.id.nickname);
 
         btn_find_lost_Object_list.setOnClickListener(this);
         btn_qna.setOnClickListener(this);
@@ -43,6 +47,11 @@ public class myPageActivity2 extends Fragment implements View.OnClickListener{
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public void onClick(View view) {

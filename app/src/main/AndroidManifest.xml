@@ -19,7 +19,6 @@
         <activity
             android:name=".indexActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,36 +27,30 @@
         </activity>
 
         <activity
-            android:name=".joinActivity"
-            android:exported="false">
+            android:name=".joinActivity">
         </activity>
 
         <activity
-            android:name=".LoginActivity"
-            android:exported="false">
+            android:name=".LoginActivity">
         </activity>
 
         <activity
-            android:name=".find_lost_Activity"
-            android:exported="false">
+            android:name=".find_lost_Activity">
         </activity>
 
         <activity
-            android:name=".qnaActivity"
-            android:exported="false">
+            android:name=".qnaActivity">
         </activity>
 
         <activity
-            android:name=".member_update_Activity"
-            android:exported="false">
+            android:name=".member_update_Activity">
         </activity>
-
         <activity
-            android:name=".uploadActivity"
-            android:exported="false">
-
+            android:name=".PasswordResetActivity">
         </activity>
-
+        <activity
+            android:name=".uploadActivity">
+        </activity>
     </application>
 
 </manifest>

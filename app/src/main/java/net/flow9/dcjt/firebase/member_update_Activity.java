@@ -3,30 +3,65 @@ package net.flow9.dcjt.firebase;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class member_update_Activity extends AppCompatActivity {
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
+public class member_update_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_update);
 
-        findViewById(R.id.password_reset).setOnClickListener(onClickListener);
+        findViewById(R.id.check_button).setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = (v) -> {
         switch(v.getId()){
-            case R.id.password_reset:
-                password_reset();
+            case R.id.check_button :
+                member_update();
                 break;
         }
     };
+    private void member_update(){
+        String ePhone = ((EditText)findViewById(R.id.e_phone)).getText().toString();
+        String eDate = ((EditText)findViewById(R.id.e_date)).getText().toString();
+        String eAddress = ((EditText)findViewById(R.id.e_address)).getText().toString();
 
-    public void password_reset(){
-        Intent intent = new Intent(member_update_Activity.this, password_reset_Activity.class);
-        startActivity(intent);
-        finish();
+
+        if(ePhone.length() > 0 && eDate.length() > 0 && eAddress.length() > 0) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+            UserProfileChangeRequest profileupdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName("Jane Q. user")
+                    .build();
+
+            if (user != null) {
+                user.updateProfile(profileupdates)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    startToast("회원정보 수정이 완료되었습니다.");
+                                }
+                            }
+                        });
+            } else {
+                startToast("회원정보를 입력해주세요");
+            }
+        }
     }
+
+    private void startToast(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
 }

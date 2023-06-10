@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class indexActivity extends AppCompatActivity {
@@ -26,6 +27,8 @@ public class indexActivity extends AppCompatActivity {
     private mapActivity  mapa;
     private myPageActivity mypa;
     private myPageActivity2 mypa2;
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class indexActivity extends AppCompatActivity {
                         setFrag(2);
                         break;
                     case R.id.action_MyPage:
-                        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+                        if(user == null){
                             setFrag(3);
                         } else {
                             setFrag(4);
