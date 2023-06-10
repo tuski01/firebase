@@ -75,8 +75,6 @@ public class joinActivity extends AppCompatActivity {
 
                                         // setValue : database에 insert 하는 행위1
                                         mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
-
-                                        startToast("회원 가입 완료");
                                         Intent intent = new Intent(joinActivity.this, uploadActivity.class);
                                         startActivity(intent);
                                     } else {

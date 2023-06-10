@@ -80,6 +80,8 @@ public class uploadActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(uploadActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
+                Toast.makeText(uploadActivity.this, "회원가입 완료", Toast.LENGTH_SHORT).show();
             }
         });
     }
