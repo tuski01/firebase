@@ -11,5 +11,12 @@
         <item>기타</item>
     </string-array>
 
+    <string-array name="brand">
+        <item>삼성</item>
+        <item>애플</item>
+        <item>LG</item>
+        <item>소니</item>
+        <item>기타</item>
+    </string-array>
 
 </resources>
