@@ -1,22 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="category">
+    <string-array name="L_category">
         <item>전자기기</item>
         <item>지갑</item>
         <item>의류</item>
         <item>가방</item>
+        <item>카드</item>
+        <item>신분증</item>
         <item>액세서리</item>
+        <item>악기</item>
         <item>도서</item>
-        <item>스포츠용품</item>
         <item>기타</item>
     </string-array>
 
-    <string-array name="brand">
-        <item>삼성</item>
-        <item>애플</item>
-        <item>LG</item>
-        <item>소니</item>
+    <string-array name="E_category">
+        <item>핸드폰</item>
+        <item>태블릿</item>
+        <item>게임기</item>
+        <item>스마트워치</item>
+        <item>무선이어폰</item>
+        <item>헤드셋</item>
+        <item>카메라</item>
         <item>기타</item>
+    </string-array>
+
+    <string-array name="W_category">
+        <item>남자 지갑</item>
+        <item>여자 지갑</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="C_category">
+        <item>남성 의류</item>
+        <item>여성 의류</item>
+        <item>아동 의류</item>
+        <item>모자</item>
+        <item>신발</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="B_category">
+        <item>백팩</item>
+        <item>크로스백</item>
+        <item>핸드백</item>
+        <item>파우치</item>
+        <item>클러치</item>
+        <item>케리어</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="A_category">
+        <item>반지</item>
+        <item>목걸이</item>
+        <item>귀걸이</item>
+        <item>시계</item>
+        <item>안경</item>
+        <item>선글라스</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="Book_category">
+        <item>학습 서적</item>
+        <item>에세이</item>
+        <item>소설</item>
+        <item>컴퓨터 서적</item>
+        <item>만화책</item>
+        <item>기타 서적</item>
+    </string-array>
+
+    <string-array name="Card_category">
+        <item>신용(체크) 카드</item>
+        <item>교통 카드</item>
+        <item>기타 카드</item>
+    </string-array>
+
+
+    <string-array name="ID_category">
+        <item>주민등록증</item>
+        <item>운전면허증</item>
+        <item>여권</item>
+        <item>학생증</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="instrument_category">
+        <item>건반 악기</item>
+        <item>관악기</item>
+        <item>타악기</item>
+        <item>현악기</item>
+        <item>기타 악기</item>
+    </string-array>
+
+    <string-array name="None_category">
     </string-array>
 
 </resources>

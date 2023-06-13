@@ -14,7 +14,7 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_sub1"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/fab_sub2"
         android:layout_alignParentRight="true"
@@ -22,7 +22,7 @@
         android:layout_marginBottom="15dp"
         android:backgroundTint="#ffffff"
         android:gravity="center"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:text="분실물 등록"
         android:visibility="invisible"
         app:borderWidth="0dp"
@@ -30,7 +30,7 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_sub2"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/fab_main"
         android:layout_alignParentRight="true"
@@ -39,14 +39,14 @@
         android:backgroundTint="#ffffff"
         android:gravity="center"
         android:text="습득물 등록"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:visibility="invisible"
         app:borderWidth="0dp"
         app:fabSize="normal" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_main"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
