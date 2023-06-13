@@ -5,16 +5,56 @@ public class Post {
     private String documentId;
     private String title;
     private String contents;
+    private int date;
+    private String L_category, M_category;
+    private String image;
+    private String writer;
+    private String mName;
+    private String mImageUrl;
 
+
+    public String getWriter() {
+        return writer;
+    }
+
+    public void setWriter(String writer) {
+        this.writer = writer;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public void post() {
 
     }
 
-    public Post(String documentId, String title, String contents) {
-        this.documentId = documentId;
-        this.title = title;
-        this.contents = contents;
+    public int getDate() {
+        return date;
+    }
+
+    public void setDate(int date) {
+        this.date = date;
+    }
+
+    public String getL_category() {
+        return L_category;
+    }
+
+    public void setL_category(String l_category) {
+        L_category = l_category;
+    }
+
+    public String getM_category() {
+        return M_category;
+    }
+
+    public void setM_category(String m_category) {
+        M_category = m_category;
     }
 
     public String getDocumentId() {
@@ -47,6 +87,12 @@ public class Post {
                 "documentId='" + documentId + '\'' +
                 ", title='" + title + '\'' +
                 ", contents='" + contents + '\'' +
+                ", L_category='" + L_category + '\'' +
+                ", M_category='" + M_category + '\'' +
+                ", date='" + date + '\'' +
+                ", imgUri='" + image + '\'' +
                 '}';
     }
 }
+
+

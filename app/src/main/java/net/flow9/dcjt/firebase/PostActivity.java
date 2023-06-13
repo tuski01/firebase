@@ -12,55 +12,64 @@ import static net.flow9.dcjt.firebase.R.array.W_category;
 import static net.flow9.dcjt.firebase.R.array.instrument_category;
 
 import android.Manifest;
-import android.content.ClipData;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import net.flow9.dcjt.firebase.adapters.PostAdapter;
+import net.flow9.dcjt.firebase.model.Post;
 
 import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
+import java.util.Calendar;
 
 public class PostActivity extends AppCompatActivity {
+
+    private FirebaseAuth mFirebaseAuth; // 파이어 베이스 인증
+    private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
     private int REQUEST_IMAGE_CODE = 1001;
     private int REQUEST_EXTERNAL_STORAGE_PERMISSIONS = 1002;
+    private TextView date_view;
+    private EditText E_title, E_contents;
+    private DatePickerDialog dpd;
     private StorageReference mStorageRef;
     private Spinner spinner;
     private ArrayAdapter L_categoryAA, M_categoryAA;
     private Spinner L_categorySp, M_categorySp;
-    private String L_category, M_category;
-    private ImageView insert_img_btn;
+    private String L_category, M_category, E_image, uploadUri, uploadId ;
+    private ImageView insert_img_btn, calender_btn;
     private Uri image;
+
     private Button confirm_btn;
 
     @Override
@@ -83,11 +92,20 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+        SharedPreferences sharedPre = this.getSharedPreferences("shared", Context.MODE_PRIVATE);
+        String strEmail = sharedPre.getString("email", "");
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("firebase");
+        mStorageRef = FirebaseStorage.getInstance().getReference("firebase");
 
         L_categorySp = findViewById(R.id.spinner);
         M_categorySp = findViewById(R.id.spinner2);
         confirm_btn = findViewById(R.id.confirm_btn);
+        calender_btn = findViewById(R.id.calender_btn);
+        date_view = findViewById(R.id.date_view);
+        E_title = findViewById(R.id.post_title_edit);
+        E_contents = findViewById(R.id.post_contents_edit);
 
 
         L_categoryAA = ArrayAdapter.createFromResource(this, R.array.L_category, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
@@ -214,23 +232,71 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+        calender_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar calendar  = Calendar.getInstance();
+                int pYear = calendar.get(Calendar.YEAR);
+                int pMonth = calendar.get(Calendar.MONTH);
+                int pDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+                dpd = new DatePickerDialog(PostActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        i1 = i1 + 1;
+                        String date = ""+ i +  i1  + i2;
+                        date_view.setText(date);
+                    }
+                }, pYear, pMonth, pDay);
+            dpd.show();
+
+            }
+        });
+
+
 
         // 등록 버튼 눌렀을때 일어나는 event
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                post_upload();
+                String L_category = L_categorySp.getSelectedItem().toString();
+                String M_category = M_categorySp.getSelectedItem().toString();
+                String date = date_view.getText().toString();
+                String title = E_title.getText().toString();
+                String contents = E_contents.getText().toString();
+                String uploadId = mDatabaseRef.push().getKey();
+                String imageUri ;
+
+                if(L_category.length() > 0 && date.length() > 0 && title.length() > 0 && contents.length() > 0 && date.length() >0){
+                    imageUri =  post_upload();
+                    FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+                    Post post = new Post();
+                    post.setDocumentId(null);
+                    post.setWriter(firebaseUser.getUid());
+                    post.setL_category(L_category);
+                    post.setM_category(M_category);
+                    post.setDate(Integer.parseInt(date));
+                    post.setTitle(title);
+                    post.setContents(contents);
+                    post.setImage(imageUri);
+                    mDatabaseRef.child("find_object").child(uploadId).setValue(post);
+                } else {
+                    startToast("빈칸을 모두 채워주세요");
+                }
+
                 finish();
             }
         });
     }
 
     // 사진 업로드 함수
-    private void post_upload(){
+    private String post_upload(){
         StorageReference riversRef = mStorageRef.child("images" + image.getLastPathSegment());
         riversRef.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        uploadUri = taskSnapshot.getUploadSessionUri().toString();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -238,6 +304,11 @@ public class PostActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
+        return uploadUri;
+    }
+
+    private void startToast(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -53,14 +53,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         fab_sub1.setOnClickListener(this);
         fab_sub2.setOnClickListener(this);
 
-        mPostRecyclerView = view.findViewById(R.id.main_recycleview);
-        mDatas = new ArrayList<>();
-        mDatas.add(new Post(null, "title", "contents"));
-        mDatas.add(new Post(null, "title", "contents"));
-        mDatas.add(new Post(null, "title", "contents"));
-
-        mAdapter = new PostAdapter(mDatas);
-        mPostRecyclerView.setAdapter(mAdapter);
 
         fab_main.setOnClickListener(this);
         fab_sub1.setOnClickListener(this);
