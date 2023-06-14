@@ -50,7 +50,6 @@ public class myPageActivity extends Fragment implements View.OnClickListener{
             case R.id.btn_find_lost_Object_list:
                 Intent intent = new Intent(getActivity(), find_lost_Activity.class);
                 startActivity(intent);
-                // 현재 액티비티 종료
                 break;
             case R.id.btn_qna:
                 Intent intent1 = new Intent(getActivity(), qnaActivity.class);

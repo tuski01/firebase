@@ -26,6 +26,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if(user != null){
+            startToast("자동 로그인 : " + user.getUid());
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -36,6 +45,9 @@ public class LoginActivity extends AppCompatActivity {
 
         mEtEmail = findViewById(R.id.e_email);
         mEtPwd = findViewById(R.id.e_password);
+
+
+
 
         Button btn_login = findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // 로그인 성공
                                 FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                                startToast("로그인 성공");
+                                startToast("로그인 성공" + user.getUid());
                                 Intent intent = new Intent(LoginActivity.this, indexActivity.class);
                                 startActivity(intent);
                                 finish(); // 현재 액티비티 종료
@@ -87,7 +99,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
     private void startToast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
 }

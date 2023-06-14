@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Firebase"
-        tools:targetApi="29">
+        tools:targetApi="29" >
 
         <activity
             android:name=".indexActivity"
@@ -38,11 +39,6 @@
         </activity>
 
         <activity
-            android:name=".find_lost_Activity"
-            android:exported="false">
-        </activity>
-
-        <activity
             android:name=".qnaActivity"
             android:exported="false">
         </activity>
@@ -55,9 +51,15 @@
         <activity
             android:name=".uploadActivity"
             android:exported="false">
-
         </activity>
-
+        <activity
+            android:name=".Lost_Post_Activity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Find_Post_Activity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

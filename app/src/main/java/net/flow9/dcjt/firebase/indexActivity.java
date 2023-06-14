@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,8 @@ public class indexActivity extends AppCompatActivity {
     private mapActivity  mapa;
     private myPageActivity mypa;
     private myPageActivity2 mypa2;
+    private FirebaseAuth mFirebaseAuth; // 파이어 베이스 인증
+
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -35,7 +38,7 @@ public class indexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
-
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         bottom_Navigatrion_View = findViewById(R.id.bottomNavi);
         bottom_Navigatrion_View.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -97,10 +100,8 @@ public class indexActivity extends AppCompatActivity {
                 break;
         }
     }
-    @Override public void onBackPressed(){
-        super.onBackPressed();
-        moveTaskToBack(true);
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
+
+    private void startToast(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

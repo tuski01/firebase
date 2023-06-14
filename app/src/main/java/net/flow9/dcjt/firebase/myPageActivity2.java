@@ -24,9 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 
-public class myPageActivity2 extends Fragment implements View.OnClickListener{
+public class myPageActivity2 extends Fragment implements View.OnClickListener {
     private View view;
     private TextView btn_find_lost_Object_list, btn_qna, btn_member_update, btn_logout, nickname;
+    private FirebaseAuth mFirebaseAuth; // 파이어 베이스 인증
 
     @Nullable
     @Override
@@ -39,10 +40,12 @@ public class myPageActivity2 extends Fragment implements View.OnClickListener{
         btn_logout = view.findViewById(R.id.btn_logout);
         nickname = (TextView) view.findViewById(R.id.nickname);
 
+
         btn_find_lost_Object_list.setOnClickListener(this);
         btn_qna.setOnClickListener(this);
         btn_member_update.setOnClickListener(this);
         btn_logout.setOnClickListener(this);
+
 
         return view;
     }
@@ -55,8 +58,7 @@ public class myPageActivity2 extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch(view.getId())
-        {
+        switch (view.getId()) {
             case R.id.btn_find_lost_Object_list:
                 Intent intent = new Intent(getActivity(), find_lost_Activity.class);
                 startActivity(intent);
