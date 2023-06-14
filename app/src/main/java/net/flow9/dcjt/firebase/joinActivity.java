@@ -54,6 +54,7 @@ public class joinActivity extends AppCompatActivity {
                     String strAddress = E_Address.getText().toString();
                     String strNick = E_Nickname.getText().toString();
 
+
                     if (strEmail.length() > 0 && strPwd.length() > 0 && strPwdCheck.length() > 0 && strNick.length() > 0 && strName.length() > 0 && strPhone.length() > 9 && strAddress.length() > 0) {
                         if (strPwd.equals(strPwdCheck)) {
                             // Firebase Auth 진행

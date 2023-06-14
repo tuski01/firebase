@@ -9,9 +9,15 @@ public class Post {
     private String L_category, M_category;
     private String image;
     private String writer;
-    private String mName;
     private String mImageUrl;
 
+    public String getmImageUrl() {
+        return mImageUrl;
+    }
+
+    public void setmImageUrl(String mImageUrl) {
+        this.mImageUrl = mImageUrl;
+    }
 
     public String getWriter() {
         return writer;

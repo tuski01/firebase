@@ -31,15 +31,6 @@ public class indexActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth; // 파이어 베이스 인증
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser user = mFirebaseAuth.getCurrentUser();
-        if(user != null){
-            startToast("자동 로그인 : " + user.getUid());
-        }
-    }
-
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
@@ -108,12 +99,6 @@ public class indexActivity extends AppCompatActivity {
                 ft.commit();
                 break;
         }
-    }
-    @Override public void onBackPressed(){
-        super.onBackPressed();
-        moveTaskToBack(true);
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
     }
 
     private void startToast(String msg){

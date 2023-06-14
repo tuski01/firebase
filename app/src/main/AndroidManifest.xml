@@ -39,11 +39,6 @@
         </activity>
 
         <activity
-            android:name=".find_lost_Activity"
-            android:exported="false">
-        </activity>
-
-        <activity
             android:name=".qnaActivity"
             android:exported="false">
         </activity>
@@ -58,7 +53,11 @@
             android:exported="false">
         </activity>
         <activity
-            android:name=".PostActivity"
+            android:name=".Lost_Post_Activity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Find_Post_Activity"
             android:exported="false">
         </activity>
     </application>
