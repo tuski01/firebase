@@ -11,6 +11,20 @@ public class Post {
     private String writer;
     private String mImageUrl;
 
+    public Post(){
+
+    }
+    public Post(String title, String contents, int date, String l_category, String m_category, String image, String writer, String mImageUrl) {
+        this.title = title;
+        this.contents = contents;
+        this.date = date;
+        this.L_category = l_category;
+        this.M_category = m_category;
+        this.image = image;
+        this.writer = writer;
+        this.mImageUrl = mImageUrl;
+    }
+
     public String getmImageUrl() {
         return mImageUrl;
     }

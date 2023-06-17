@@ -15,21 +15,40 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
-import net.flow9.dcjt.firebase.adapters.PostAdapter;
+import net.flow9.dcjt.firebase.adapters.find_PostAdapter;
+import net.flow9.dcjt.firebase.adapters.lost_PostAdapter;
 import net.flow9.dcjt.firebase.model.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class mainActivity extends Fragment implements View.OnClickListener {
+
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private FirebaseStorage mStore = FirebaseStorage.getInstance();
+    private ChildEventListener mChild;
     private View view;
-    private RecyclerView mPostRecyclerView;
-    private PostAdapter mAdapter;
-    private List<Post> mDatas;
+    private RecyclerView fPostRecyclerView, lPostRecyclerView;
+    private find_PostAdapter fAdapter;
+    private lost_PostAdapter lAdapter;
+    private List<Post> mDatas1, mDatas2;
     private ExtendedFloatingActionButton fab_main, fab_sub1, fab_sub2;
     private Animation fab_open, fab_close;
     private boolean isFabOpen = false;
     private Context mContext;
+
+
 
 
     @Nullable
@@ -55,11 +74,68 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         fab_sub1.setOnClickListener(this);
         fab_sub2.setOnClickListener(this);
 
+        find_object_list();
+        lost_object_list();
+
         return view;
     }
+
+
+    public void find_object_list(){
+        Query myTopPostsQuery = mDatabase.child("firebase").child("Find_object");
+        fPostRecyclerView = view.findViewById(R.id.main_recycleview);
+        mDatas1 = new ArrayList<>();
+        myTopPostsQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mDatas1.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Post postdata = dataSnapshot.getValue(Post.class);
+                    mDatas1.add(postdata);
+                }
+                fAdapter = new find_PostAdapter(mDatas1);
+                fPostRecyclerView.setAdapter(fAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+    public void lost_object_list(){
+        Query myTopPostsQuery = mDatabase.child("firebase").child("Lost_object");
+        lPostRecyclerView = view.findViewById(R.id.main_recycleview2);
+        mDatas2 = new ArrayList<>();
+        myTopPostsQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mDatas2.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Post postdata = dataSnapshot.getValue(Post.class);
+                    mDatas2.add(postdata);
+                }
+                lAdapter = new lost_PostAdapter(mDatas2);
+                lPostRecyclerView.setAdapter(lAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
     }
 

@@ -1,11 +1,8 @@
 package net.flow9.dcjt.firebase.adapters;
 
-import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,14 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import net.flow9.dcjt.firebase.R;
 import net.flow9.dcjt.firebase.model.Post;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+public class lost_PostAdapter extends RecyclerView.Adapter<lost_PostAdapter.PostViewHolder> {
 
     private List<Post> datas;
 
-    public PostAdapter(List<Post> datas) {
+    public lost_PostAdapter(List<Post> datas) {
         this.datas = datas;
     }
 
