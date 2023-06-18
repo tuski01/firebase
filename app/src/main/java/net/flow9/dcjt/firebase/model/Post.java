@@ -2,7 +2,7 @@ package net.flow9.dcjt.firebase.model;
 
 public class Post {
 
-    private String documentId;
+    private int documentNum;
     private String title;
     private String contents;
     private int date;
@@ -77,12 +77,12 @@ public class Post {
         M_category = m_category;
     }
 
-    public String getDocumentId() {
-        return documentId;
+    public int getDocumentNum() {
+        return documentNum;
     }
 
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
+    public void setDocumentNum(int documentNum) {
+        this.documentNum = documentNum;
     }
 
     public String getTitle() {
@@ -104,8 +104,7 @@ public class Post {
     @Override
     public String toString() {
         return "Post{" +
-                "documentId='" + documentId + '\'' +
-                ", title='" + title + '\'' +
+                " title='" + title + '\'' +
                 ", contents='" + contents + '\'' +
                 ", L_category='" + L_category + '\'' +
                 ", M_category='" + M_category + '\'' +

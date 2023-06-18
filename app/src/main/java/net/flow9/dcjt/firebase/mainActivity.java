@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -51,7 +52,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
     private boolean isFabOpen = false;
     private Context mContext;
     private FirebaseUser user = mAuth.getCurrentUser();
-
+    private GridLayoutManager layoutmaneger1, layoutmaneger2;
 
 
 
@@ -62,6 +63,11 @@ public class mainActivity extends Fragment implements View.OnClickListener {
 
 
         mContext = view.getContext();
+        layoutmaneger1 = new GridLayoutManager(getActivity(), 2);
+        layoutmaneger1.setReverseLayout(true);
+        layoutmaneger2 = new GridLayoutManager(getActivity(), 2);
+        layoutmaneger2.setReverseLayout(true);
+
 
         fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
@@ -87,8 +93,9 @@ public class mainActivity extends Fragment implements View.OnClickListener {
 
 
     public void find_object_list(){
-        Query myTopPostsQuery = mDatabase.child("firebase").child("Find_object");
+        Query myTopPostsQuery = mDatabase.child("firebase").child("Find_object").limitToLast(4);
         fPostRecyclerView = view.findViewById(R.id.main_recycleview);
+        fPostRecyclerView.setLayoutManager(layoutmaneger1);
         mDatas1 = new ArrayList<>();
         myTopPostsQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -99,8 +106,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                     mDatas1.add(postdata);
                 }
                 fAdapter = new find_PostAdapter(mDatas1);
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-                fPostRecyclerView.setLayoutManager(gridLayoutManager);
                 fPostRecyclerView.setAdapter(fAdapter);
             }
 
@@ -110,8 +115,9 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         });
     }
     public void lost_object_list(){
-        Query myTopPostsQuery = mDatabase.child("firebase").child("Lost_object");
+        Query myTopPostsQuery = mDatabase.child("firebase").child("Lost_object").limitToLast(4);
         lPostRecyclerView = view.findViewById(R.id.main_recycleview2);
+        lPostRecyclerView.setLayoutManager(layoutmaneger2);
         mDatas2 = new ArrayList<>();
         myTopPostsQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -121,8 +127,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                     Post postdata = dataSnapshot.getValue(Post.class);
                     mDatas2.add(postdata);
                 }
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-                fPostRecyclerView.setLayoutManager(gridLayoutManager);
                 lAdapter = new lost_PostAdapter(mDatas2);
                 lPostRecyclerView.setAdapter(lAdapter);
             }
@@ -131,13 +135,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
     }
 
     @Override
@@ -169,7 +166,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
             case R.id.fab_sub2:
                 toggleFab();
                 if(user != null) {
-
                     Intent intent2 = new Intent(getActivity(), Find_Post_Activity.class);
                     startActivity(intent2);
                 }else {
