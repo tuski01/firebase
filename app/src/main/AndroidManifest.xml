@@ -14,56 +14,56 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Firebase"
-        tools:targetApi="29" >
+        android:usesCleartextTraffic="true"
+        tools:targetApi="29"
+        android:name=".MyApplication">
+
 
         <activity
-            android:name=".indexActivity"
-            android:exported="true">
-
+            android:name=".splashActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".chatRoomActivity"
+            android:exported="false" />
+        <activity
+            android:name=".indexActivity"
+            android:exported="false">
 
+        </activity>
         <activity
             android:name=".joinActivity"
-            android:exported="false">
-        </activity>
-
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="false">
-        </activity>
-
+            android:exported="false" />
         <activity
             android:name=".qnaActivity"
-            android:exported="false">
-        </activity>
-
+            android:exported="false" />
         <activity
             android:name=".member_update_Activity"
-            android:exported="false">
-        </activity>
-
+            android:exported="false" />
         <activity
             android:name=".uploadActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".Lost_Post_Activity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".Find_Post_Activity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

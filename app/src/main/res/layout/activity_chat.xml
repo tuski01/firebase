@@ -5,16 +5,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="채팅 화면"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/PrimaryColor"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/Theme.Firebase"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        android:layout_alignParentTop="true">
 
-    </TextView>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/notificationicon" />
+
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/searchicon" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:textSize="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="주소미지정" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="675dp"
+            android:src="@drawable/img" />
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
