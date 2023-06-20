@@ -8,14 +8,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import net.flow9.dcjt.firebase.R;
 import net.flow9.dcjt.firebase.model.Post;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class lost_PostAdapter extends RecyclerView.Adapter<lost_PostAdapter.PostViewHolder> {
 
     private List<Post> datas;
+    private FirebaseStorage storage= FirebaseStorage.getInstance();
+    private StorageReference stoRef = storage.getReference();
+
+
 
     public lost_PostAdapter(List<Post> datas) {
         this.datas = datas;
@@ -30,8 +39,11 @@ public class lost_PostAdapter extends RecyclerView.Adapter<lost_PostAdapter.Post
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post data = datas.get(position);
+        String sdate = String.valueOf(data.getDate());
         holder.title.setText(data.getTitle());
-        holder.contents.setText(data.getContents());
+        holder.date.setText(sdate);
+        holder.L_category.setText(data.getL_category());
+        holder.M_category.setText(data.getM_category());
     }
 
     @Override
@@ -42,13 +54,17 @@ public class lost_PostAdapter extends RecyclerView.Adapter<lost_PostAdapter.Post
     class PostViewHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
-        private TextView contents;
+        private TextView date;
+        private TextView L_category;
+        private TextView M_category;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            L_category = itemView.findViewById(R.id.L_category);
+            M_category = itemView.findViewById(R.id.M_category);
             title = itemView.findViewById(R.id.item_post_title);
-            contents = itemView.findViewById(R.id.item_post_contents);
+            date = itemView.findViewById(R.id.item_post_date);
         }
     }
 

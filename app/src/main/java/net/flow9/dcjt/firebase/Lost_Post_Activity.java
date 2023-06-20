@@ -51,7 +51,10 @@ import com.google.firebase.storage.UploadTask;
 import net.flow9.dcjt.firebase.model.Post;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class Lost_Post_Activity extends AppCompatActivity {
 
@@ -86,7 +89,7 @@ public class Lost_Post_Activity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            StorageReference riversRef = mStorageRef.child("Lost_images" + image.getLastPathSegment());
+            StorageReference riversRef = mStorageRef.child("Lost_Post").child("Lost_images" + image.getLastPathSegment());
             riversRef.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -98,6 +101,7 @@ public class Lost_Post_Activity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    e.printStackTrace();
                 }
             });
         } else {
@@ -265,9 +269,11 @@ public class Lost_Post_Activity extends AppCompatActivity {
                         date_view.setText(date);
                     }
                 }, pYear, pMonth, pDay);
+
             dpd.show();
 
             }
+
         });
 
         // 등록 버튼 눌렀을때 일어나는 event

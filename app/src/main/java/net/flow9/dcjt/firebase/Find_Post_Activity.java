@@ -42,16 +42,23 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import net.flow9.dcjt.firebase.adapters.lost_PostAdapter;
 import net.flow9.dcjt.firebase.model.Post;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Find_Post_Activity extends AppCompatActivity {
 
@@ -63,6 +70,11 @@ public class Find_Post_Activity extends AppCompatActivity {
     private EditText E_title, E_contents, mEditTextFileName;
     private DatePickerDialog dpd;
     private StorageReference mStorageRef;
+    private List<Post> mDatas;
+    private Post postdata;
+    private int documentNum = 0;
+
+
     private Spinner spinner;
     private ArrayAdapter L_categoryAA, M_categoryAA;
     private Spinner L_categorySp, M_categorySp;
@@ -72,7 +84,8 @@ public class Find_Post_Activity extends AppCompatActivity {
     private Post post = new Post();
 
     private Button confirm_btn;
-
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private FirebaseStorage mStore = FirebaseStorage.getInstance();
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -86,7 +99,7 @@ public class Find_Post_Activity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            StorageReference riversRef = mStorageRef.child("Find_images" + image.getLastPathSegment());
+            StorageReference riversRef = mStorageRef.child("Find_Post").child("Find_images" + image.getLastPathSegment());
             riversRef.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -116,6 +129,9 @@ public class Find_Post_Activity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("firebase");
         mStorageRef = FirebaseStorage.getInstance().getReference("firebase");
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseStorage mStore = FirebaseStorage.getInstance();
 
         L_categorySp = findViewById(R.id.spinner);
         M_categorySp = findViewById(R.id.spinner2);
@@ -280,7 +296,6 @@ public class Find_Post_Activity extends AppCompatActivity {
                 String title = E_title.getText().toString();
                 String contents = E_contents.getText().toString();
 
-                if(L_category.length() > 0 && date.length() > 0 && title.length() > 0 && contents.length() > 0) {
                     FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
                     post.setWriter(firebaseUser.getUid());
                     post.setL_category(L_category);
@@ -289,9 +304,10 @@ public class Find_Post_Activity extends AppCompatActivity {
                     post.setTitle(title);
                     post.setContents(contents);
                     mDatabaseRef.child("Find_object").child(post.getmImageUrl()).setValue(post);
-                }
+
                 Intent intent = new Intent(Find_Post_Activity.this, indexActivity.class);
                 startActivity(intent);
+
                 finish();
             }
         });

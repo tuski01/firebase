@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,8 +47,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
     private Animation fab_open, fab_close;
     private boolean isFabOpen = false;
     private Context mContext;
-    private TextView tv;
-    private MyApplication myApplication;
 
 
 
@@ -59,12 +55,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_main, container, false);
-        tv = view.findViewById(R.id.tv_address);
-        myApplication = (MyApplication) getActivity().getApplication();
-        String address = myApplication.getSelectedAddress();
-        if (address != null) {
-            tv.setText(address);
-        }
 
         mContext = view.getContext();
 
@@ -87,7 +77,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         find_object_list();
         lost_object_list();
 
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         return view;
     }
 

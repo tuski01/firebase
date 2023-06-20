@@ -3,6 +3,7 @@ package net.flow9.dcjt.firebase.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,8 +31,12 @@ public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.Post
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post data = datas.get(position);
+        String sdata = String.valueOf(data.getDate());
         holder.title.setText(data.getTitle());
-        holder.contents.setText(data.getContents());
+        holder.date.setText(sdata);
+        holder.L_category.setText(data.getL_category());
+        holder.M_category.setText(data.getM_category());
+
     }
 
     @Override
@@ -42,13 +47,18 @@ public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.Post
     class PostViewHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
-        private TextView contents;
+        private TextView date;
+        private TextView L_category, M_category;
+        private ImageView image;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            image = itemView.findViewById(R.id.item_post_image);
+            L_category = itemView.findViewById(R.id.L_category);
+            M_category = itemView.findViewById(R.id.M_category);
             title = itemView.findViewById(R.id.item_post_title);
-            contents = itemView.findViewById(R.id.item_post_contents);
+            date = itemView.findViewById(R.id.item_post_date);
         }
     }
 
