@@ -5,56 +5,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mainActivity">
-
-    <ScrollView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:background="@color/PrimaryColor"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/Theme.Firebase"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints"
+            android:layout_alignParentTop="true">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="right"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/notificationicon" />
+
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="right"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/searchicon" />
+
             <TextView
-                android:id="@+id/t_find_object"
+                android:id="@+id/tv_address"
+                android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="분실 물품"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:textColor="#191919"
-                android:textSize="15dp"  />
+                android:hint="주소미지정" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/main_recycleview"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                android:layout_marginLeft="10dp"
-                app:reverseLayout="true" />
-            <TextView
-                android:id="@+id/t_lost_object"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="습득 물품"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:textColor="#191919"
-                android:textSize="15dp"  />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/main_recycleview2"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_height="500dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:reverseLayout="true"
-                />
-        </LinearLayout>
-    </ScrollView>
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="261dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_recycleview2"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"/>
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_sub1"
@@ -66,8 +74,8 @@
         android:layout_marginBottom="15dp"
         android:backgroundTint="#ffffff"
         android:gravity="center"
-        android:text="습득물 등록"
         android:textSize="16sp"
+        android:text="분실물 등록"
         android:visibility="invisible"
         app:borderWidth="0dp"
         app:fabSize="normal" />
@@ -82,7 +90,7 @@
         android:layout_marginBottom="15dp"
         android:backgroundTint="#ffffff"
         android:gravity="center"
-        android:text="분실물 등록"
+        android:text="습득물 등록"
         android:textSize="16sp"
         android:visibility="invisible"
         app:borderWidth="0dp"
