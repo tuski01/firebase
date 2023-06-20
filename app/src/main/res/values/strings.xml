@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name" translatable="false">firebase</string>
+    <string name="myAppName"></string>
 </resources>
