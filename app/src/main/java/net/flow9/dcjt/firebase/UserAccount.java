@@ -12,7 +12,27 @@ public class UserAccount {
     private String phone; // 전화번호
     private String name; // 이름
     private String address; // 주소
+    private String imgUrl;
+    private String image;
 
+    public UserAccount() { }
+
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getPhone() {
         return phone;
@@ -38,7 +58,7 @@ public class UserAccount {
         this.address = address;
     }
 
-    public UserAccount() { }
+
 
     public String getIdToken() {
         return idToken;

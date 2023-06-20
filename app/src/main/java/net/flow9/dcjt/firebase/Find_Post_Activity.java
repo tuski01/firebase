@@ -83,6 +83,7 @@ public class Find_Post_Activity extends AppCompatActivity {
     private Uri image;
     private Post post = new Post();
 
+
     private Button confirm_btn;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private FirebaseStorage mStore = FirebaseStorage.getInstance();

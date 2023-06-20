@@ -14,18 +14,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <TextView
+                android:id="@+id/t_find_object"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="분실 물품"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textColor="#191919"
+                android:textSize="15dp"  />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/main_recycleview"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:reverseLayout="true"
-                />
+                android:layout_marginLeft="10dp"
+                app:reverseLayout="true" />
+            <TextView
+                android:id="@+id/t_lost_object"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="습득 물품"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textColor="#191919"
+                android:textSize="15dp"  />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/main_recycleview2"
                 android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
                 android:layout_height="500dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:reverseLayout="true"
@@ -43,7 +66,7 @@
         android:layout_marginBottom="15dp"
         android:backgroundTint="#ffffff"
         android:gravity="center"
-        android:text="분실물 등록"
+        android:text="습득물 등록"
         android:textSize="16sp"
         android:visibility="invisible"
         app:borderWidth="0dp"
@@ -59,7 +82,7 @@
         android:layout_marginBottom="15dp"
         android:backgroundTint="#ffffff"
         android:gravity="center"
-        android:text="습득물 등록"
+        android:text="분실물 등록"
         android:textSize="16sp"
         android:visibility="invisible"
         app:borderWidth="0dp"

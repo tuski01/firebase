@@ -15,6 +15,7 @@
 
     <string-array name="E_category">
         <item>핸드폰</item>
+        <item>노트북</item>
         <item>태블릿</item>
         <item>게임기</item>
         <item>스마트워치</item>

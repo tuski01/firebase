@@ -3,11 +3,13 @@ package net.flow9.dcjt.firebase.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -44,6 +46,7 @@ public class lost_PostAdapter extends RecyclerView.Adapter<lost_PostAdapter.Post
         holder.date.setText(sdate);
         holder.L_category.setText(data.getL_category());
         holder.M_category.setText(data.getM_category());
+        Glide.with(holder.itemView).load(data.getmImageUrl()).into(holder.image);
     }
 
     @Override
@@ -57,10 +60,11 @@ public class lost_PostAdapter extends RecyclerView.Adapter<lost_PostAdapter.Post
         private TextView date;
         private TextView L_category;
         private TextView M_category;
+        private ImageView image;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            image = itemView.findViewById(R.id.item_post_image);
             L_category = itemView.findViewById(R.id.L_category);
             M_category = itemView.findViewById(R.id.M_category);
             title = itemView.findViewById(R.id.item_post_title);

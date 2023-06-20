@@ -9,6 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import net.flow9.dcjt.firebase.R;
 import net.flow9.dcjt.firebase.model.Post;
 
@@ -17,6 +21,8 @@ import java.util.List;
 public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.PostViewHolder> {
 
     private List<Post> datas;
+    private FirebaseStorage storage= FirebaseStorage.getInstance();
+    private StorageReference stoRef = storage.getReference();
 
     public find_PostAdapter(List<Post> datas) {
         this.datas = datas;
@@ -31,11 +37,13 @@ public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.Post
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post data = datas.get(position);
-        String sdata = String.valueOf(data.getDate());
+        String sdate = String.valueOf(data.getDate());
         holder.title.setText(data.getTitle());
-        holder.date.setText(sdata);
+        holder.date.setText(sdate);
         holder.L_category.setText(data.getL_category());
         holder.M_category.setText(data.getM_category());
+        Glide.with(holder.itemView).load(data.getmImageUrl()).into(holder.image);
+
 
     }
 

@@ -38,6 +38,26 @@
                 android:textSize="24dp"
                 android:layout_gravity="center" />
         </com.google.android.material.appbar.MaterialToolbar>
+        <TextView
+            android:id="@+id/t_profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PROFILE_IMAGE"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#191919"
+            android:textSize="15dp"  />
+
+        <ImageView
+            android:id="@+id/profile_img_button"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@color/browser_actions_bg_grey"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            />
+
 
 
         <TextView
