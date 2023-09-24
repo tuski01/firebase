@@ -27,7 +27,6 @@ public class indexActivity extends AppCompatActivity {
     private chatActivity ca;
     private mapActivity  mapa;
     private myPageActivity mypa;
-    private myPageActivity2 mypa2;
     private FirebaseAuth mFirebaseAuth; // 파이어 베이스 인증
 
 
@@ -69,7 +68,7 @@ public class indexActivity extends AppCompatActivity {
         ca = new chatActivity();
         mapa = new mapActivity();
         mypa = new myPageActivity();
-        mypa2 = new myPageActivity2();
+//        mypa2 = new myPageActivity2();
         setFrag(0);
     }
 
@@ -94,10 +93,10 @@ public class indexActivity extends AppCompatActivity {
                 ft.replace(R.id.main_frame, mypa);
                 ft.commit();
                 break;
-            case 4:
-                ft.replace(R.id.main_frame, mypa2);
-                ft.commit();
-                break;
+//            case 4:
+//                ft.replace(R.id.main_frame, mypa2);
+//                ft.commit();
+//                break;
         }
     }
 

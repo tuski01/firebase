@@ -1,60 +1,86 @@
 package net.flow9.dcjt.firebase;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
-import android.os.AsyncTask;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 
-public class RegisterActivity extends AsyncTask<String, Void, String> {
-    String sendMsg, receiveMsg;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    @Override
-    protected String doInBackground(String... strings) {
-        try {
-            String str;
+public class RegisterActivity extends AppCompatActivity {
 
-            // 접속할 서버 주소 (이클립스에서 android.jsp 실행시 웹브라우저 주소)
-            URL url = new URL("http://10.0.2.2:8080/test/androidDB.jsp");
-            // http://ip주소:포트번호/이클립스프로젝트명/WebContent아래폴더/androidDB.jsp
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            conn.setRequestMethod("POST");
-            OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+    private EditText E_Email, E_Pass, E_Nickname, E_Password_check, E_Phone, E_Name, E_Address;      // 로그인 입력필드
 
-            // 전송할 데이터. GET 방식으로 작성
-            sendMsg = "id=" + strings[0] + "&pw=" + strings[1] + "&name=" + strings[2] + "&phone=" + strings[3] + "&address=" + strings[4] + "&nickname=" + strings[5];
 
-            osw.write(sendMsg);
-            osw.flush();
 
-            //jsp와 통신 성공 시 수행
-            if (conn.getResponseCode() == conn.HTTP_OK) {
-                InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
-                BufferedReader reader = new BufferedReader(tmp);
-                StringBuffer buffer = new StringBuffer();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_join);
 
-                // jsp에서 보낸 값을 받는 부분
-                while ((str = reader.readLine()) != null) {
-                    buffer.append(str);
-                }
-                receiveMsg = buffer.toString();
-            } else {
-                // 통신 실패
+        E_Email = findViewById(R.id.e_email);
+        E_Pass = findViewById(R.id.e_password);
+        E_Nickname = findViewById(R.id.e_nickname);
+        E_Password_check = findViewById(R.id.e_password_check);
+        E_Phone = findViewById(R.id.e_phone);
+        E_Address = findViewById(R.id.e_address);
+        E_Name = findViewById(R.id.e_name);
+
+
+
+        Button b_confirm = findViewById(R.id.b_confirm);
+        b_confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+            public void onClick(View view) {
+                // 회원가입 처리 시작
+                String userID = E_Email.getText().toString();
+                String userPw =  E_Pass.getText().toString();
+                String userNickname = E_Nickname.getText().toString();
+                String userPhone = E_Phone.getText().toString();
+                String userAddress = E_Address.getText().toString();
+                String userName = E_Name.getText().toString();
+
+
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            boolean success = jsonObject.getBoolean("success");
+                            if(success){
+                                Toast.makeText(getApplicationContext(), "회원 등록에 성공", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "회원 등록에 실패", Toast.LENGTH_SHORT).show();
+                                return ;
+                            }
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                };
+
+                RegisterRequest registerRequest = new RegisterRequest(userID, userPw, userNickname,userPhone, userAddress,userName, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
+                queue.add(registerRequest);
+
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        //jsp로부터 받은 리턴 값
-        return receiveMsg;
+        });
     }
+
 }

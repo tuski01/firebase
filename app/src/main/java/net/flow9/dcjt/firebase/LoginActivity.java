@@ -1,23 +1,20 @@
 package net.flow9.dcjt.firebase;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,22 +38,35 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // 로그인 요청
-                String strEmail = mEtEmail.getText().toString();
-                String strPwd = mEtPwd.getText().toString();
-                try {
-                    Toast.makeText(LoginActivity.this, "버튼눌림", Toast.LENGTH_SHORT).show();
-                    String result;
-                    Login_Request task = new Login_Request();
+                String userID = mEtEmail.getText().toString();
+                String userPW = mEtPwd.getText().toString();
 
-                    result = task.execute(strEmail, strPwd).get();
-                } catch (Exception e) {
-                    Log.i("DBtest", ".....ERROR.....!");
-                }
+                Response.Listener<String> responseListener = new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            boolean success = jsonObject.getBoolean("success");
+                            if(success){
+                                String userId = jsonObject.getString("userID");
+                                String userPw = jsonObject.getString("userPassword");
 
-                Intent intent = new Intent(LoginActivity.this, mainActivity.class);
-                startActivity(intent);
-
-
+                                Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, mainActivity.class);
+                                intent.putExtra("userID", userId);
+                                intent.putExtra("userPW", userPw);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "로그인에 실패", Toast.LENGTH_SHORT).show();
+                                return ;
+                            }
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                };
+                Login_Request loginRequest = new Login_Request(userID, userPW, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+                queue.add(loginRequest);
             }
         });
 
@@ -66,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // 회원가입 화면으로 이동
-                Intent intent = new Intent(LoginActivity.this, joinActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
