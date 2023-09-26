@@ -23,7 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private EditText E_Email, E_Pass, E_Nickname, E_Password_check, E_Phone, E_Name, E_Address;      // 로그인 입력필드
-
+    private boolean validate = false;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,46 @@ public class RegisterActivity extends AppCompatActivity {
         E_Name = findViewById(R.id.e_name);
 
 
+        Button validate_btn = findViewById(R.id.validate_btn);
+
+        validate_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userID = E_Email.getText().toString();
+                if(validate){
+                    return;
+                }
+                if(userID.equals("")){
+                    Toast.makeText(RegisterActivity.this, "아이디는 빈칸일 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            System.out.println(success);
+                            if(success){
+                                Toast.makeText(RegisterActivity.this, "사용할 수 있는 아이디", Toast.LENGTH_SHORT).show();
+                                E_Email.setEnabled(false);
+                                validate_btn.setEnabled(false);
+                                validate = true;
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "사용할 수 없는 아이디", Toast.LENGTH_SHORT).show();
+                            }
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                ValidateRequest validateRequest = new ValidateRequest(userID, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
+                queue.add(validateRequest);
+            }
+        });
+
 
         Button b_confirm = findViewById(R.id.b_confirm);
         b_confirm.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +92,15 @@ public class RegisterActivity extends AppCompatActivity {
                 String userAddress = E_Address.getText().toString();
                 String userName = E_Name.getText().toString();
 
+                if(!validate){
+                    Toast.makeText(RegisterActivity.this, "먼저 중복 체크를 해주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
+                if(userID.equals("") || userPw.equals("") || userNickname.equals("") ||userPhone.equals("") || userAddress.equals("") || userName.equals("")){
+                    Toast.makeText(getApplicationContext(), "빈칸이 존재하면 안됩니다.", Toast.LENGTH_SHORT).show();
+                    return ;
+                }
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -74,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 };
 
-                RegisterRequest registerRequest = new RegisterRequest(userID, userPw, userNickname,userPhone, userAddress,userName, responseListener);
+                RegisterRequest registerRequest = new RegisterRequest(userID, userPw ,userName, userPhone, userAddress,userNickname, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
 

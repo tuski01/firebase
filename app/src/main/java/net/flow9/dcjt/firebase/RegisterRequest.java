@@ -16,7 +16,7 @@ public class RegisterRequest extends StringRequest {
     final static private String URL = "http://144.24.94.84/test/Register.php";
     private Map<String, String> map;
 
-    public RegisterRequest(String userID, String userPassword, String userName, String userNickname, String userPhone, String userAddress,  Response.Listener<String> listener){
+    public RegisterRequest(String userID, String userPassword, String userName,  String userPhone, String userAddress,String userNickname,  Response.Listener<String> listener){
         super(Request.Method.POST, URL, listener, null);
 
         map = new HashMap<>();

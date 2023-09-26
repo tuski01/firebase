@@ -44,9 +44,12 @@ public class mainActivity extends Fragment implements View.OnClickListener {
     private List<Post> mDatas1, mDatas2;
     private ExtendedFloatingActionButton fab_main, fab_sub1, fab_sub2;
     private Animation fab_open, fab_close;
+
+    private String userId = indexActivity.userID;
+
     private boolean isFabOpen = false;
     private Context mContext;
-    private FirebaseUser user = mAuth.getCurrentUser();
+
 
     private GridLayoutManager layoutmaneger1, layoutmaneger2;
 
@@ -58,6 +61,8 @@ public class mainActivity extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_main, container, false);
+
+
 
         tv = view.findViewById(R.id.tv_address);
         myApplication = (MyApplication) getActivity().getApplication();
@@ -158,7 +163,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                 break;
             case R.id.fab_sub1:
                 toggleFab();
-                if(user != null) {
+                if(userId != null) {
                     Intent intent = new Intent(getActivity(), Lost_Post_Activity.class);
                     startActivity(intent);
                 } else {
@@ -168,7 +173,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                 break;
             case R.id.fab_sub2:
                 toggleFab();
-                if(user != null) {
+                if(userId != null) {
 
                     Intent intent2 = new Intent(getActivity(), Find_Post_Activity.class);
                     startActivity(intent2);

@@ -71,19 +71,30 @@
             android:textColor="#191919"
             android:textSize="15dp"  />
 
-        <EditText
-            android:id="@+id/e_email"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+        <EditText
+            android:id="@+id/e_email"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:ems="25"
             android:hint="email"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
             android:inputType="textEmailAddress"
             android:textColorHint="#c4c4c4"
             android:textSize="12dp" />
-
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="중복"
+                android:textSize="12dp"
+                android:id="@+id/validate_btn"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/password_text"

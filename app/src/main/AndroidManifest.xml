@@ -58,6 +58,8 @@
             android:name=".Login_Request" />
         <activity
             android:name=".myPageActivity"/>
+        <activity
+            android:name=".myPageActivity2"/>
     </application>
 
 </manifest>

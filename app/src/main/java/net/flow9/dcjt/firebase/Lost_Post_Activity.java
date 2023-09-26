@@ -12,13 +12,16 @@ import static net.flow9.dcjt.firebase.R.array.W_category;
 import static net.flow9.dcjt.firebase.R.array.instrument_category;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -37,18 +40,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.loader.content.CursorLoader;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
 
 import net.flow9.dcjt.firebase.model.Post;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -58,68 +60,83 @@ import java.util.Locale;
 
 public class Lost_Post_Activity extends AppCompatActivity {
 
-    private FirebaseAuth mFirebaseAuth; // 파이어 베이스 인증
-    private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
+
     private int REQUEST_IMAGE_CODE = 1001;
     private int REQUEST_EXTERNAL_STORAGE_PERMISSIONS = 1002;
     private TextView date_view;
     private EditText E_title, E_contents, mEditTextFileName;
     private DatePickerDialog dpd;
-    private StorageReference mStorageRef;
     private Spinner spinner;
     private ArrayAdapter L_categoryAA, M_categoryAA;
     private Spinner L_categorySp, M_categorySp;
     private String L_category, M_category, E_image, uploadUri, uploadId ;
     private ImageView insert_img_btn, calender_btn;
-    private Uri image;
     private Post post = new Post();
 
     private Button confirm_btn;
 
+    String imgPath;
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch(requestCode){
+            case 10:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    startToast("외부 메모리 읽기/쓰기 사용 가능");
+                } else {
+                    startToast("외부 메모리 읽기/쓰기 제한");
+                }
+                break;
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
+            case 10:
+                if(resultCode == RESULT_OK){
+                    startToast("RESULT_OK");
+                    Uri uri = data.getData();
+                    if(uri != null){
+                        insert_img_btn.setImageURI(uri);
+                        imgPath = getRealPathFromUri(uri);
 
-        if (requestCode == REQUEST_IMAGE_CODE) {
-            image = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
-                insert_img_btn.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            StorageReference riversRef = mStorageRef.child("Lost_Post").child("Lost_images" + image.getLastPathSegment());
-            riversRef.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String upload = taskSnapshot.getUploadSessionUri().toString();
-                    String uploadId = mDatabaseRef.push().getKey();
-                    post.setmImageUrl(uploadId);
-                    post.setImage(upload);
+                        new AlertDialog.Builder(this).setMessage(uri.toString()+ "\n" + imgPath).create().show();
+                    }
+                } else {
+                    startToast("이미지 선택 되지 않음");
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        } else {
-            startToast("빈칸을 모두 채워주세요");
+                break;
         }
     }
+
+    String getRealPathFromUri(Uri uri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader loader = new CursorLoader(this, uri, proj, null, null, null);
+        Cursor cursor = loader.loadInBackground();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String result = cursor.getString(column_index);
+        cursor.close();
+        return result;
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_lost);
 
-        SharedPreferences sharedPre = this.getSharedPreferences("shared", Context.MODE_PRIVATE);
-        String strEmail = sharedPre.getString("email", "");
-
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("firebase");
-        mStorageRef = FirebaseStorage.getInstance().getReference("firebase");
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            int permissionResult = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if(permissionResult == PackageManager.PERMISSION_DENIED){
+                String[] permissions=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                requestPermissions(permissions, 10);
+            }
+        }
 
         L_categorySp = findViewById(R.id.spinner);
         M_categorySp = findViewById(R.id.spinner2);
@@ -133,7 +150,6 @@ public class Lost_Post_Activity extends AppCompatActivity {
         L_categoryAA = ArrayAdapter.createFromResource(this, R.array.L_category, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
         L_categorySp.setAdapter(L_categoryAA);
         insert_img_btn = findViewById(R.id.insert_image_btn);
-
         L_categorySp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -248,8 +264,9 @@ public class Lost_Post_Activity extends AppCompatActivity {
         insert_img_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQUEST_IMAGE_CODE);
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, 10);
             }
         });
 
@@ -286,16 +303,8 @@ public class Lost_Post_Activity extends AppCompatActivity {
                 String title = E_title.getText().toString();
                 String contents = E_contents.getText().toString();
 
-                if(L_category.length() > 0 && date.length() > 0 && title.length() > 0 && contents.length() > 0) {
-                    FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-                    post.setWriter(firebaseUser.getUid());
-                    post.setL_category(L_category);
-                    post.setM_category(M_category);
-                    post.setDate(Integer.parseInt(date));
-                    post.setTitle(title);
-                    post.setContents(contents);
-                    mDatabaseRef.child("Lost_object").child(post.getmImageUrl()).setValue(post);
-                }
+
+
                 Intent intent = new Intent(Lost_Post_Activity.this, indexActivity.class);
                 startActivity(intent);
                 finish();
@@ -303,7 +312,9 @@ public class Lost_Post_Activity extends AppCompatActivity {
         });
     }
 
-    // 사진 업로드 함수
+
+
+
     private void startToast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
