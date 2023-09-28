@@ -17,26 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import net.flow9.dcjt.firebase.adapters.find_PostAdapter;
 import net.flow9.dcjt.firebase.adapters.lost_PostAdapter;
 import net.flow9.dcjt.firebase.model.Post;
 import java.util.ArrayList;
 import java.util.List;
 public class mainActivity extends Fragment implements View.OnClickListener {
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    private FirebaseStorage mStore = FirebaseStorage.getInstance();
-    private ChildEventListener mChild;
     private View view;
     private RecyclerView fPostRecyclerView, lPostRecyclerView;
     private find_PostAdapter fAdapter;
@@ -97,51 +83,9 @@ public class mainActivity extends Fragment implements View.OnClickListener {
 
 
     public void find_object_list(){
-        Query myTopPostsQuery = mDatabase.child("firebase").child("Find_object").limitToLast(4);
-        fPostRecyclerView = view.findViewById(R.id.main_recycleview);
-        fPostRecyclerView.setLayoutManager(layoutmaneger1);
-        mDatas1 = new ArrayList<>();
-        myTopPostsQuery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mDatas1.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Post postdata = dataSnapshot.getValue(Post.class);
-                    mDatas1.add(postdata);
-                }
-                fAdapter = new find_PostAdapter(mDatas1);
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-                fPostRecyclerView.setLayoutManager(gridLayoutManager);
-                fPostRecyclerView.setAdapter(fAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
     }
     public void lost_object_list(){
-        Query myTopPostsQuery = mDatabase.child("firebase").child("Lost_object").limitToLast(4);
-        lPostRecyclerView = view.findViewById(R.id.main_recycleview2);
-        lPostRecyclerView.setLayoutManager(layoutmaneger2);
-        mDatas2 = new ArrayList<>();
-        myTopPostsQuery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mDatas2.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Post postdata = dataSnapshot.getValue(Post.class);
-                    mDatas2.add(postdata);
-                }
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-                fPostRecyclerView.setLayoutManager(gridLayoutManager);
-                lAdapter = new lost_PostAdapter(mDatas2);
-                lPostRecyclerView.setAdapter(lAdapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+
     }
 
 

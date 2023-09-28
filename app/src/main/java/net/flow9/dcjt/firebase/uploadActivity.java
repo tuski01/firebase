@@ -20,12 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class uploadActivity extends AppCompatActivity {
@@ -41,10 +35,6 @@ public class uploadActivity extends AppCompatActivity {
     private Uri mImageUri;
 
 
-
-    private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef;
-
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -58,8 +48,6 @@ public class uploadActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.progress_bar);
         btn_complete = findViewById(R.id.complete);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +59,7 @@ public class uploadActivity extends AppCompatActivity {
         mButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadFile();
+
             }
         });
 
@@ -111,7 +99,7 @@ public class uploadActivity extends AppCompatActivity {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
-
+/*
     private void uploadFile() {
         if (mImageUri != null) {
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
@@ -151,6 +139,6 @@ public class uploadActivity extends AppCompatActivity {
                     });
         }else {
             Toast.makeText(this, "no file selected", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
-}
+

@@ -40,17 +40,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import net.flow9.dcjt.firebase.adapters.lost_PostAdapter;
 import net.flow9.dcjt.firebase.model.Post;
@@ -62,14 +51,11 @@ import java.util.List;
 
 public class Find_Post_Activity extends AppCompatActivity {
 
-    private FirebaseAuth mFirebaseAuth; // 파이어 베이스 인증
-    private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
     private int REQUEST_IMAGE_CODE = 1001;
     private int REQUEST_EXTERNAL_STORAGE_PERMISSIONS = 1002;
     private TextView date_view;
     private EditText E_title, E_contents, mEditTextFileName;
     private DatePickerDialog dpd;
-    private StorageReference mStorageRef;
     private List<Post> mDatas;
     private Post postdata;
     private int documentNum = 0;
@@ -85,8 +71,6 @@ public class Find_Post_Activity extends AppCompatActivity {
 
 
     private Button confirm_btn;
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    private FirebaseStorage mStore = FirebaseStorage.getInstance();
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -99,25 +83,9 @@ public class Find_Post_Activity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            StorageReference riversRef = mStorageRef.child("Find_Post").child("Find_images" + image.getLastPathSegment());
-            riversRef.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String upload = taskSnapshot.getUploadSessionUri().toString();
-                    String uploadId = mDatabaseRef.push().getKey();
-                    post.setmImageUrl(uploadId);
-                    post.setImage(upload);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                }
-            });
-        } else {
-            startToast("빈칸을 모두 채워주세요");
         }
     }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,12 +95,6 @@ public class Find_Post_Activity extends AppCompatActivity {
         SharedPreferences sharedPre = this.getSharedPreferences("shared", Context.MODE_PRIVATE);
         String strEmail = sharedPre.getString("email", "");
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("firebase");
-        mStorageRef = FirebaseStorage.getInstance().getReference("firebase");
-
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        FirebaseStorage mStore = FirebaseStorage.getInstance();
 
         L_categorySp = findViewById(R.id.spinner);
         M_categorySp = findViewById(R.id.spinner2);
@@ -297,14 +259,11 @@ public class Find_Post_Activity extends AppCompatActivity {
                 String title = E_title.getText().toString();
                 String contents = E_contents.getText().toString();
 
-                    FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-                    post.setWriter(firebaseUser.getUid());
                     post.setL_category(L_category);
                     post.setM_category(M_category);
                     post.setDate(Integer.parseInt(date));
                     post.setTitle(title);
                     post.setContents(contents);
-                    mDatabaseRef.child("Find_object").child(post.getmImageUrl()).setValue(post);
 
                 Intent intent = new Intent(Find_Post_Activity.this, indexActivity.class);
                 startActivity(intent);
