@@ -28,6 +28,8 @@ public class mainActivity extends Fragment implements View.OnClickListener {
     private find_PostAdapter fAdapter;
     private lost_PostAdapter lAdapter;
     private List<Post> mDatas1, mDatas2;
+
+
     private ExtendedFloatingActionButton fab_main, fab_sub1, fab_sub2;
     private Animation fab_open, fab_close;
 
