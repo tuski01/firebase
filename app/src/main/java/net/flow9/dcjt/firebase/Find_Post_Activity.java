@@ -296,8 +296,7 @@ public class Find_Post_Activity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Find_Post_Activity.this, indexActivity.class);
-                startActivity(intent);
+                finish();
             }
         }, new Response.ErrorListener() {
             @Override
