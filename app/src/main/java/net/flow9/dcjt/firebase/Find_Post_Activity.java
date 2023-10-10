@@ -18,9 +18,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,27 +40,48 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import net.flow9.dcjt.firebase.adapters.lost_PostAdapter;
 import net.flow9.dcjt.firebase.model.Post;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Find_Post_Activity extends AppCompatActivity {
 
     private int REQUEST_IMAGE_CODE = 1001;
     private int REQUEST_EXTERNAL_STORAGE_PERMISSIONS = 1002;
+    String encodeImageString;
+
+    Bitmap bitmap;
     private TextView date_view;
     private EditText E_title, E_contents, mEditTextFileName;
     private DatePickerDialog dpd;
     private List<Post> mDatas;
     private Post postdata;
     private int documentNum = 0;
+
 
 
     private Spinner spinner;
@@ -69,23 +92,9 @@ public class Find_Post_Activity extends AppCompatActivity {
     private Uri image;
     private Post post = new Post();
 
+    private static final String url = "http://144.24.94.84/test/findpost.php";
 
     private Button confirm_btn;
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_IMAGE_CODE) {
-            image = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
-                insert_img_btn.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -220,12 +229,31 @@ public class Find_Post_Activity extends AppCompatActivity {
         }
 
         // 이미지 추가를 위해 ImageView 선택시 일어나는 Event
-        insert_img_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQUEST_IMAGE_CODE);
-            }
+        insert_img_btn.setOnClickListener(view -> {
+            Dexter.withActivity(Find_Post_Activity.this)
+                    .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .withListener(new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response)
+                        {
+                            Intent intent = new Intent(Intent.ACTION_PICK);
+                            intent.setType("image/*");
+                            startActivityForResult(Intent.createChooser(intent, "Browse Image"), 1);
+                        }
+
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response)
+                        {
+
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest
+                                                                               permission, PermissionToken token)
+                        {
+                            token.continuePermissionRequest();
+                        }
+                    }).check();
         });
 
         calender_btn.setOnClickListener(new View.OnClickListener() {
@@ -250,27 +278,80 @@ public class Find_Post_Activity extends AppCompatActivity {
         });
 
         // 등록 버튼 눌렀을때 일어나는 event
-        confirm_btn.setOnClickListener(new View.OnClickListener() {
+        confirm_btn.setOnClickListener(view ->{
+            uploadDataToDB();
+        });
+    }
+
+    private void uploadDataToDB()
+    {
+        String L_category = L_categorySp.getSelectedItem().toString();
+        String M_category = M_categorySp.getSelectedItem().toString();
+        String date = date_view.getText().toString();
+        String title = E_title.getText().toString();
+        String contents = E_contents.getText().toString();
+        String userID = indexActivity.userID;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void onClick(View view) {
-                String L_category = L_categorySp.getSelectedItem().toString();
-                String M_category = M_categorySp.getSelectedItem().toString();
-                String date = date_view.getText().toString();
-                String title = E_title.getText().toString();
-                String contents = E_contents.getText().toString();
-
-                    post.setL_category(L_category);
-                    post.setM_category(M_category);
-                    post.setDate(Integer.parseInt(date));
-                    post.setTitle(title);
-                    post.setContents(contents);
-
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Find_Post_Activity.this, indexActivity.class);
                 startActivity(intent);
-
-                finish();
             }
-        });
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError
+            {
+                Map<String, String> map = new HashMap<>();
+                // 1번 인자는 PHP 파일의 $_POST['']; 부분과 똑같이 해줘야 한다
+                map.put("img", encodeImageString);
+                map.put("L_category", L_category);
+                map.put("M_category", M_category);
+                map.put("date", date);
+                map.put("title", title);
+                map.put("contents", contents);
+                map.put("userID", userID);
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null)
+        {
+            Uri filePath = data.getData();
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(filePath);
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                insert_img_btn.setImageBitmap(bitmap);
+                encodeBitmapImage(bitmap);
+            }   catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void encodeBitmapImage(Bitmap bitmap)
+    {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+
+        byte[] bytesOfImage = byteArrayOutputStream.toByteArray();
+        encodeImageString = android.util.Base64.encodeToString(bytesOfImage, Base64.DEFAULT);
+        System.out.println(encodeImageString );
     }
 
     // 사진 업로드 함수

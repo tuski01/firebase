@@ -22,7 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.squareup.picasso.Picasso;
 
-public class uploadActivity extends AppCompatActivity {
+public class uploadActivity extends AppCompatActivity{
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button mButtonChooseImage;
