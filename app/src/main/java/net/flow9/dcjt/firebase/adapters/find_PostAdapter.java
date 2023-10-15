@@ -1,74 +1,81 @@
 package net.flow9.dcjt.firebase.adapters;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import net.flow9.dcjt.firebase.R;
 import net.flow9.dcjt.firebase.model.Post;
 
-import java.util.List;
+import java.util.ArrayList;
+public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.CustomViewHolder> {
 
-public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.PostViewHolder> {
+        private ArrayList<Post> arrayList;
 
-    private List<Post> datas;
-    private FirebaseStorage storage= FirebaseStorage.getInstance();
-    private StorageReference stoRef = storage.getReference();
-
-    public find_PostAdapter(List<Post> datas) {
-        this.datas = datas;
-    }
-
+        public find_PostAdapter(ArrayList<Post> arrayList){
+            this.arrayList = arrayList;
+        }
     @NonNull
     @Override
-    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PostViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false));
+    public find_PostAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
+        find_PostAdapter.CustomViewHolder holder = new CustomViewHolder(view);
+
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        Post data = datas.get(position);
-        String sdate = String.valueOf(data.getDate());
-        holder.title.setText(data.getTitle());
-        holder.date.setText(sdate);
-        holder.L_category.setText(data.getL_category());
-        holder.M_category.setText(data.getM_category());
-        Glide.with(holder.itemView).load(data.getmImageUrl()).into(holder.image);
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+        Glide.with(holder.item_post_image).load(arrayList.get(position).getItem_post_image()).into(holder.item_post_image);
+        holder.L_category.setText(arrayList.get(position).getL_category());
+        holder.M_category.setText(arrayList.get(position).getM_category());
+        holder.item_post_title.setText(arrayList.get(position).getItem_post_title());
+        holder.item_post_date.setText(arrayList.get(position).getItem_post_date());
 
-
+        holder.itemView.setTag(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String curName = holder.item_post_title.getText().toString();
+                Toast.makeText(view.getContext(), curName, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    @Override
-    public int getItemCount() {
-        return datas.size();
-    }
 
-    class PostViewHolder extends RecyclerView.ViewHolder {
+        @Override
+        public int getItemCount() {
+            return (null != arrayList ? arrayList.size() : 0);
+        }
 
-        private TextView title;
-        private TextView date;
-        private TextView L_category, M_category;
-        private ImageView image;
+        public class CustomViewHolder extends RecyclerView.ViewHolder {
+            protected ImageView item_post_image;
+            protected TextView L_category;
+            protected TextView M_category;
+            protected TextView item_post_title;
+            protected TextView item_post_date;
 
-        public PostViewHolder(@NonNull View itemView) {
-            super(itemView);
+            public CustomViewHolder(@NonNull View itemView) {
+                super(itemView);
 
-            image = itemView.findViewById(R.id.item_post_image);
-            L_category = itemView.findViewById(R.id.L_category);
-            M_category = itemView.findViewById(R.id.M_category);
-            title = itemView.findViewById(R.id.item_post_title);
-            date = itemView.findViewById(R.id.item_post_date);
+                this.item_post_image = (ImageView) itemView.findViewById(R.id.item_post_image);
+                this.L_category = (TextView) itemView.findViewById(R.id.L_category);
+                this.M_category = (TextView) itemView.findViewById(R.id.M_category);
+                this.item_post_title = (TextView) itemView.findViewById(R.id.item_post_title);
+                this.item_post_date = (TextView) itemView.findViewById(R.id.item_post_date);
+            }
         }
     }
 
 
-}
+

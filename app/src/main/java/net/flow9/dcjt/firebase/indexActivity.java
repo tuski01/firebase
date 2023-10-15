@@ -31,16 +31,18 @@ public class indexActivity extends AppCompatActivity {
     public static String userNickname, userID;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
-
         userNickname = getIntent().getStringExtra("userNickname");
         userID = getIntent().getStringExtra("userID");
-
-        System.out.println(userNickname);
-
+        ma = new mainActivity();
+        ca = new chatActivity();
+        mapa = new mapActivity();
+        mypa = new myPageActivity();
+        mypa2 = new myPageActivity2();
 
 
         bottom_Navigatrion_View = findViewById(R.id.bottomNavi);
@@ -68,11 +70,7 @@ public class indexActivity extends AppCompatActivity {
                 return true;
             }
         });
-        ma = new mainActivity();
-        ca = new chatActivity();
-        mapa = new mapActivity();
-        mypa = new myPageActivity();
-        mypa2 = new myPageActivity2();
+
         setFrag(0);
     }
 
@@ -107,4 +105,6 @@ public class indexActivity extends AppCompatActivity {
     private void startToast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
+
 }

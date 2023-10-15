@@ -1,64 +1,29 @@
 package net.flow9.dcjt.firebase.model;
 
+import android.net.Uri;
+
 public class Post {
 
-    private int documentNum;
-    private String title;
-    private String contents;
-    private int date;
-    private String L_category, M_category;
-    private String image;
-    private String writer;
-    private String mImageUrl;
+    private String item_post_image;
+    private String L_category;
+    private String M_category;
+    private String item_post_title;
+    private String item_post_date;
 
-    public Post(){
-
-    }
-    public Post(String title, String contents, int date, String l_category, String m_category, String image, String writer, String mImageUrl) {
-        this.title = title;
-        this.contents = contents;
-        this.date = date;
+    public Post(String item_post_image, String l_category, String m_category, String item_post_title, String item_post_date) {
+        this.item_post_image = item_post_image;
         this.L_category = l_category;
         this.M_category = m_category;
-        this.image = image;
-        this.writer = writer;
-        this.mImageUrl = mImageUrl;
+        this.item_post_title = item_post_title;
+        this.item_post_date = item_post_date;
     }
 
-    public String getmImageUrl() {
-        return mImageUrl;
+    public String getItem_post_image() {
+        return item_post_image;
     }
 
-    public void setmImageUrl(String mImageUrl) {
-        this.mImageUrl = mImageUrl;
-    }
-
-    public String getWriter() {
-        return writer;
-    }
-
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public void post() {
-
-    }
-
-    public int getDate() {
-        return date;
-    }
-
-    public void setDate(int date) {
-        this.date = date;
+    public void setItem_post_image(String item_post_image) {
+        this.item_post_image = item_post_image;
     }
 
     public String getL_category() {
@@ -77,40 +42,20 @@ public class Post {
         M_category = m_category;
     }
 
-    public int getDocumentNum() {
-        return documentNum;
+    public String getItem_post_title() {
+        return item_post_title;
     }
 
-    public void setDocumentNum(int documentNum) {
-        this.documentNum = documentNum;
+    public void setItem_post_title(String item_post_title) {
+        this.item_post_title = item_post_title;
     }
 
-    public String getTitle() {
-        return title;
+    public String getItem_post_date() {
+        return item_post_date;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                " title='" + title + '\'' +
-                ", contents='" + contents + '\'' +
-                ", L_category='" + L_category + '\'' +
-                ", M_category='" + M_category + '\'' +
-                ", date='" + date + '\'' +
-                ", imgUri='" + image + '\'' +
-                '}';
+    public void setItem_post_date(String item_post_date) {
+        this.item_post_date = item_post_date;
     }
 }
 

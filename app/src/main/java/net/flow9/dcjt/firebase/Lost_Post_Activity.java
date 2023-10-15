@@ -93,8 +93,6 @@ public class Lost_Post_Activity extends AppCompatActivity {
 
     Bitmap bitmap;
 
-    private Post post = new Post();
-
     private Button confirm_btn;
 
     private static final String url = "http://144.24.94.84/test/lostpost.php";

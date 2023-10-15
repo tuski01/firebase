@@ -37,6 +37,8 @@
             android:name=".chatRoomActivity"
             android:exported="false" />
         <activity
+            android:name=".mainActivity" />
+        <activity
             android:name=".indexActivity" />
         <activity
             android:name=".LoginActivity" />

@@ -90,7 +90,6 @@ public class Find_Post_Activity extends AppCompatActivity {
     private String L_category, M_category, E_image, uploadUri, uploadId ;
     private ImageView insert_img_btn, calender_btn;
     private Uri image;
-    private Post post = new Post();
 
     private static final String url = "http://144.24.94.84/test/findpost.php";
 
@@ -248,8 +247,7 @@ public class Find_Post_Activity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onPermissionRationaleShouldBeShown(PermissionRequest
-                                                                               permission, PermissionToken token)
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token)
                         {
                             token.continuePermissionRequest();
                         }
