@@ -92,10 +92,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String userAddress = E_Address.getText().toString();
                 String userName = E_Name.getText().toString();
 
-                if(!validate){
+                /* if(!validate){
                     Toast.makeText(RegisterActivity.this, "먼저 중복 체크를 해주세요", Toast.LENGTH_SHORT).show();
                     return;
-                }
+                }*/
 
                 if(userID.equals("") || userPw.equals("") || userNickname.equals("") ||userPhone.equals("") || userAddress.equals("") || userName.equals("")){
                     Toast.makeText(getApplicationContext(), "빈칸이 존재하면 안됩니다.", Toast.LENGTH_SHORT).show();

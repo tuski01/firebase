@@ -95,7 +95,7 @@ public class Lost_Post_Activity extends AppCompatActivity {
 
     private Button confirm_btn;
 
-    private static final String url = "http://144.24.94.84/test/lostpost.php";
+    private static final String url = "http://49.50.175.166/lostpost.php";
 
     String imgPath;
 
@@ -299,7 +299,7 @@ public class Lost_Post_Activity extends AppCompatActivity {
         String M_category = M_categorySp.getSelectedItem().toString();
         String date = date_view.getText().toString();
         String title = E_title.getText().toString();
-        String contents = E_contents.getText().toString();
+        String contents = E_contents.getText().toString().trim();
         String userID = indexActivity.userID;
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

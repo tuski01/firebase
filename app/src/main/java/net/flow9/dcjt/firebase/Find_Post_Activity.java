@@ -91,7 +91,7 @@ public class Find_Post_Activity extends AppCompatActivity {
     private ImageView insert_img_btn, calender_btn;
     private Uri image;
 
-    private static final String url = "http://144.24.94.84/test/findpost.php";
+    private static final String url = "http://49.50.175.166/findpost.php";
 
     private Button confirm_btn;
 
@@ -278,6 +278,7 @@ public class Find_Post_Activity extends AppCompatActivity {
         // 등록 버튼 눌렀을때 일어나는 event
         confirm_btn.setOnClickListener(view ->{
             uploadDataToDB();
+
         });
     }
 
@@ -287,8 +288,9 @@ public class Find_Post_Activity extends AppCompatActivity {
         String M_category = M_categorySp.getSelectedItem().toString();
         String date = date_view.getText().toString();
         String title = E_title.getText().toString();
-        String contents = E_contents.getText().toString();
+        String contents = E_contents.getText().toString().trim();
         String userID = indexActivity.userID;
+
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -316,6 +318,8 @@ public class Find_Post_Activity extends AppCompatActivity {
                 map.put("contents", contents);
                 map.put("userID", userID);
                 return map;
+
+
             }
         };
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -351,7 +355,7 @@ public class Find_Post_Activity extends AppCompatActivity {
         System.out.println(encodeImageString );
     }
 
-    // 사진 업로드 함수
+
     private void startToast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }

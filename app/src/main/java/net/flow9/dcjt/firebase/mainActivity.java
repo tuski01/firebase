@@ -83,8 +83,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         findpost_recyclerview.setLayoutManager(layoutManager1);
 
 
-
-
         lostpost_recyclerview = (RecyclerView) view.findViewById(R.id.lostpost_list);
         layoutManager2 = new LinearLayoutManager(getActivity());
         lostpost_recyclerview.setLayoutManager(layoutManager2);
@@ -109,7 +107,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
 
     public void find_object_list(){
         postlist = new ArrayList<>();
-
         find_adapter = new find_PostAdapter(postlist);
         findpost_recyclerview.setAdapter(find_adapter);
         new find_BackgroundTask().execute();
@@ -118,7 +115,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
     }
     public void lost_object_list(){
         postlist2 = new ArrayList<>();
-        lost_adapter = new lost_PostAdapter(postlist);
+        lost_adapter = new lost_PostAdapter(postlist2);
         lostpost_recyclerview.setAdapter(lost_adapter);
         new lost_BackgroundTask().execute();
         lost_adapter.notifyDataSetChanged();
@@ -142,7 +139,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         String target;
 
         protected void onPreExecute(){
-            target = "http://144.24.94.84/test/lostpost_load.php";
+            target = "http://49.50.175.166/lostpost_load.php";
         }
 
         @Override
@@ -175,10 +172,10 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                 String img, L_category, M_category, title, date;
                 while(count < jsonArray.length()){
                     JSONObject object = jsonArray.getJSONObject(count);
-                    img = "http://144.24.94.84/test/images/lostpost/" + object.getString("img");
+                    img = "http://49.50.175.166/images/lostpost/" + object.getString("img");
                     L_category = object.getString("Lcategory");
                     M_category = object.getString("Mcategory");
-                    title = object.getString("Title");
+                    title = object.getString("title");
                     date =  object.getString("uploadDate");
                     Post post = new Post(img, L_category, M_category, title, date);
                     postlist2.add(post);
@@ -195,7 +192,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         String target;
 
         protected void onPreExecute(){
-            target = "http://144.24.94.84/test/findpost_load.php";
+            target = "http://49.50.175.166/findpost_load.php";
         }
 
         @Override
@@ -228,10 +225,10 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                 String img, L_category, M_category, title, date;
                 while(count < jsonArray.length()){
                     JSONObject object2 = jsonArray.getJSONObject(count);
-                    img = "http://144.24.94.84/test/images/findpost/" + object2.getString("img");
+                    img = "http://49.50.175.166/images/findpost/" + object2.getString("img");
                     L_category = object2.getString("Lcategory");
                     M_category = object2.getString("Mcategory");
-                    title = object2.getString("Title");
+                    title = object2.getString("title");
                     date =  object2.getString("uploadDate");
                     Post post = new Post(img, L_category, M_category, title, date);
                     postlist.add(post);
