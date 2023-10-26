@@ -1,6 +1,8 @@
 package net.flow9.dcjt.firebase.adapters;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import net.flow9.dcjt.firebase.Lost_Object_detail;
 import net.flow9.dcjt.firebase.R;
 import net.flow9.dcjt.firebase.model.Post;
 
@@ -20,9 +23,11 @@ import java.util.ArrayList;
 public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.CustomViewHolder> {
 
         private ArrayList<Post> arrayList;
+        private Context context;
 
-        public find_PostAdapter(ArrayList<Post> arrayList){
+        public find_PostAdapter(ArrayList<Post> arrayList, Context context){
             this.arrayList = arrayList;
+            this.context = context;
         }
     @NonNull
     @Override
@@ -47,7 +52,9 @@ public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.Cust
             @Override
             public void onClick(View view) {
                 String curName = holder.item_post_title.getText().toString();
-                Toast.makeText(view.getContext(), curName, Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(context, Lost_Object_detail.class);
+//                intent.putExtra("curName", curName);
+//                context.startActivity(intent);
             }
         });
     }

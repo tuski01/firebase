@@ -107,7 +107,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
 
     public void find_object_list(){
         postlist = new ArrayList<>();
-        find_adapter = new find_PostAdapter(postlist);
+        find_adapter = new find_PostAdapter(postlist, getContext());
         findpost_recyclerview.setAdapter(find_adapter);
         new find_BackgroundTask().execute();
         find_adapter.notifyDataSetChanged();

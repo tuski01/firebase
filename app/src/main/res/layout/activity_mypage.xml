@@ -19,70 +19,148 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="bottom">
-
-            <ImageView
-                android:id="@+id/profile_img"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="top"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                app:srcCompat="@drawable/ic_launcher_background"  />
+            android:layout_height="50dp"
+            android:orientation="vertical"
+            android:gravity="bottom" >
 
             <TextView
                 android:id="@+id/nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:text="NickName"
                 android:textSize="24dp"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="10dp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <ImageView
-                android:id="@+id/btn_setting"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_gravity="top"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                android:layout_marginLeft="20dp" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/btn_find_lost_Object_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="분실 / 습득물 신고 이력"
-            android:textSize="24sp" />
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black" />
 
         <TextView
-            android:id="@+id/btn_qna"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="1:1문의"
+            android:text="등록 내역"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="24sp" />
+        <TextView
+            android:id="@+id/find_Object_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="분실 물품"/>
+        <TextView
+            android:id="@+id/lost_Object_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="습득 물품"/>
+
+        <View
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
 
         <TextView
-            android:id="@+id/btn_member_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="고객 지원"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="24sp" />
+        <TextView
+            android:id="@+id/QnA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="QnA"/>
+
+        <TextView
+            android:id="@+id/CS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="고객센터"/>
+
+        <TextView
+            android:id="@+id/Inquiry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="1:1 문의"/>
+
+        <View
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <TextView
+            android:id="@+id/Setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="회원 정보 수정"
+            android:text="설정"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="24sp" />
+        <TextView
+            android:id="@+id/User_information_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="회원 정보 수정"/>
+        <TextView
+            android:id="@+id/app_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="앱 설정"/>
+
+        <View
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
 
         <TextView
             android:id="@+id/btn_login"
@@ -91,6 +169,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:text="로그인" />
     </LinearLayout>
 
