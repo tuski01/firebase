@@ -9,8 +9,12 @@ public class Post {
     private String M_category;
     private String item_post_title;
     private String item_post_date;
+    private String item_post_ObjNum;
 
-    public Post(String item_post_image, String l_category, String m_category, String item_post_title, String item_post_date) {
+
+
+    public Post(String item_post_ObjNum, String item_post_image, String l_category, String m_category, String item_post_title, String item_post_date) {
+        this.item_post_ObjNum = item_post_ObjNum;
         this.item_post_image = item_post_image;
         this.L_category = l_category;
         this.M_category = m_category;
@@ -56,6 +60,14 @@ public class Post {
 
     public void setItem_post_date(String item_post_date) {
         this.item_post_date = item_post_date;
+    }
+
+    public String getItem_post_ObjNum() {
+        return item_post_ObjNum;
+    }
+
+    public void setItem_post_ObjNum(String item_post_ObjNum) {
+        this.item_post_ObjNum = item_post_ObjNum;
     }
 }
 

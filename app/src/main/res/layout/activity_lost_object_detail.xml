@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Lost_Object_detail">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:text="분실 물품"
+            android:background="@color/PrimaryColor"/>
+
+        <ImageView
+            android:id="@+id/lost_object_img"
+            android:src="@mipmap/ic_launcher"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="300dp"/>
+
+        <TextView
+            android:id="@+id/lost_object_title"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="에어팟 프로 1세대"
+            android:textSize="24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lost_object_Lcategory"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="전자기기"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text=" | "
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+            <TextView
+                android:id="@+id/lost_object_Mcategory"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="휴대폰"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/lost_object_date"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="300dp"
+            android:layout_height="20dp"
+            android:text="분실 일시 : 10월 16일"
+            android:textColor="@color/black"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/lost_object_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="신구대학교 남관 212호 에서 습득"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:paddingBottom="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:gravity="center_vertical"
+            android:layout_height="40dp"
+            android:text="분실 장소"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginBottom="50dp"
+            />
+
+
+    </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:text="대화하기"
+        android:background="@color/PrimaryColor"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:textStyle="bold" />
+</RelativeLayout>

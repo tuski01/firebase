@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import net.flow9.dcjt.firebase.Lost_Object_detail;
+import net.flow9.dcjt.firebase.Find_Object_detail;
 import net.flow9.dcjt.firebase.R;
 import net.flow9.dcjt.firebase.model.Post;
 
@@ -41,6 +41,10 @@ public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.Cust
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+
+        Post post = arrayList.get(position);
+
+        holder.item_post_ObjNum.setText(arrayList.get(position).getItem_post_ObjNum());
         Glide.with(holder.item_post_image).load(arrayList.get(position).getItem_post_image()).into(holder.item_post_image);
         holder.L_category.setText(arrayList.get(position).getL_category());
         holder.M_category.setText(arrayList.get(position).getM_category());
@@ -51,10 +55,10 @@ public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.Cust
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String curName = holder.item_post_title.getText().toString();
-//                Intent intent = new Intent(context, Lost_Object_detail.class);
-//                intent.putExtra("curName", curName);
-//                context.startActivity(intent);
+                int mPosition = holder.getAdapterPosition();
+                Intent intent = new Intent(context, Find_Object_detail.class);
+                intent.putExtra("ObjNum", arrayList.get(mPosition).getItem_post_ObjNum());
+                context.startActivity(intent);
             }
         });
     }
@@ -71,10 +75,12 @@ public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.Cust
             protected TextView M_category;
             protected TextView item_post_title;
             protected TextView item_post_date;
+            protected TextView item_post_ObjNum;
 
             public CustomViewHolder(@NonNull View itemView) {
                 super(itemView);
 
+                this.item_post_ObjNum = itemView.findViewById(R.id.item_post_ObjNum);
                 this.item_post_image = (ImageView) itemView.findViewById(R.id.item_post_image);
                 this.L_category = (TextView) itemView.findViewById(R.id.L_category);
                 this.M_category = (TextView) itemView.findViewById(R.id.M_category);

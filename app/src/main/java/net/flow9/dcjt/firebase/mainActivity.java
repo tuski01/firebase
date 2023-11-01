@@ -115,7 +115,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
     }
     public void lost_object_list(){
         postlist2 = new ArrayList<>();
-        lost_adapter = new lost_PostAdapter(postlist2);
+        lost_adapter = new lost_PostAdapter(postlist2, getContext());
         lostpost_recyclerview.setAdapter(lost_adapter);
         new lost_BackgroundTask().execute();
         lost_adapter.notifyDataSetChanged();
@@ -169,15 +169,16 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                String img, L_category, M_category, title, date;
+                String ObjNum, img, L_category, M_category, title, date;
                 while(count < jsonArray.length()){
                     JSONObject object = jsonArray.getJSONObject(count);
+                    ObjNum = object.getString("ObjNum");
                     img = "http://49.50.175.166/images/lostpost/" + object.getString("img");
                     L_category = object.getString("Lcategory");
                     M_category = object.getString("Mcategory");
                     title = object.getString("title");
                     date =  object.getString("uploadDate");
-                    Post post = new Post(img, L_category, M_category, title, date);
+                    Post post = new Post(ObjNum, img, L_category, M_category, title, date);
                     postlist2.add(post);
                     count++;
                 }
@@ -222,15 +223,16 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                String img, L_category, M_category, title, date;
+                String ObjNum, img, L_category, M_category, title, date;
                 while(count < jsonArray.length()){
                     JSONObject object2 = jsonArray.getJSONObject(count);
+                    ObjNum = object2.getString("ObjNum");
                     img = "http://49.50.175.166/images/findpost/" + object2.getString("img");
                     L_category = object2.getString("Lcategory");
                     M_category = object2.getString("Mcategory");
                     title = object2.getString("title");
                     date =  object2.getString("uploadDate");
-                    Post post = new Post(img, L_category, M_category, title, date);
+                    Post post = new Post(ObjNum, img, L_category, M_category, title, date);
                     postlist.add(post);
 ;
                     count++;

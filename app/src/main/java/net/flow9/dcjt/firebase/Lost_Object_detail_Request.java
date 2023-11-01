@@ -1,0 +1,30 @@
+package net.flow9.dcjt.firebase;
+
+import androidx.annotation.Nullable;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Lost_Object_detail_Request extends StringRequest {
+    final static private String URL = "http://49.50.175.166/lost_object_detail.php";
+    private Map<String, String> map;
+
+    public Lost_Object_detail_Request(String ObjNum, Response.Listener<String> listener){
+        super(Request.Method.POST, URL, listener, null);
+
+        map = new HashMap<>();
+        map.put("ObjNum", ObjNum);
+    }
+
+    @Nullable
+    @Override
+    protected Map<String, String> getParams() throws AuthFailureError {
+        return map;
+    }
+
+}
