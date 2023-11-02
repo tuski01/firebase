@@ -2,6 +2,7 @@ package net.flow9.dcjt.firebase.model;
 
 import android.net.Uri;
 
+
 public class Post {
 
     private String item_post_image;

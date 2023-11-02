@@ -26,6 +26,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class lost_PostAdapter extends RecyclerView.Adapter<lost_PostAdapter.CustomViewHolder> {
 
     private ArrayList<Post> arrayList;

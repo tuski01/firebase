@@ -1,6 +1,5 @@
 package net.flow9.dcjt.firebase.adapters;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;

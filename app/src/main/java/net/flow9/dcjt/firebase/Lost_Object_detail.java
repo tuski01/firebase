@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 public class Lost_Object_detail extends AppCompatActivity {
     private ImageView lost_object_img;
     private TextView lost_object_title;

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 public class Find_Object_detail extends AppCompatActivity {
     private ImageView find_object_img;
     private TextView find_object_title;
