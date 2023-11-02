@@ -16,14 +16,18 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
     private MyApplication myApplication;
+    private static String IP_ADDRESS = "49.50.175.166";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        WebView webView = findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
+        WebView webView = findViewById(R.id.webView);  // WebView 설정
+        webView.getSettings().setJavaScriptEnabled(true); // JavaScript 허용
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true); // JavaScript의 window.open 허용
+        webView.getSettings().setDomStorageEnabled(true);
         webView.addJavascriptInterface(new BridgeInterface(), "Android");
         myApplication = (MyApplication) getApplicationContext();
 
@@ -36,7 +40,7 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         // 최초 웹뷰 로드
-        webView.loadUrl("https://fir-d8d40.web.app");
+        webView.loadUrl("http://" + IP_ADDRESS + "/Searchadddd.html");
     }
 
     public class BridgeInterface {

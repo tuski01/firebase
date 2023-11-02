@@ -1,4 +1,6 @@
 package net.flow9.dcjt.firebase;
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -6,12 +8,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -21,6 +27,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.naver.maps.geometry.LatLng;
+
 import net.flow9.dcjt.firebase.adapters.find_PostAdapter;
 import net.flow9.dcjt.firebase.adapters.lost_PostAdapter;
 import net.flow9.dcjt.firebase.model.Post;
@@ -37,6 +45,8 @@ import java.util.ArrayList;
 import java.util.List;
 public class mainActivity extends Fragment implements View.OnClickListener {
     private View view;
+    private ImageView search;
+    private TextView tv_address;
 
     private ExtendedFloatingActionButton fab_main, fab_sub1, fab_sub2;
     private Animation fab_open, fab_close;
@@ -87,7 +97,8 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         layoutManager2 = new LinearLayoutManager(getActivity());
         lostpost_recyclerview.setLayoutManager(layoutManager2);
 
-
+        search = view.findViewById(R.id.search);
+        tv_address = view.findViewById(R.id.tv_address);
 
         fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
@@ -100,6 +111,13 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         fab_main.setOnClickListener(this);
         fab_sub1.setOnClickListener(this);
         fab_sub2.setOnClickListener(this);
+
+        search.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), SearchActivity.class);
+            getSearchResult.launch(intent);
+        });
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
 
         return view;
     }
@@ -286,4 +304,22 @@ public class mainActivity extends Fragment implements View.OnClickListener {
             isFabOpen = true;
         }
     }
+
+    private final ActivityResultLauncher<Intent> getSearchResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
+                        double latitude = result.getData().getDoubleExtra("latitude", 0.0);
+                        double longitude = result.getData().getDoubleExtra("longitude", 0.0);
+                        String data = result.getData().getStringExtra("data");
+
+                        tv_address.setText(data);
+
+
+          
+                    }
+                }
+            }
+    );
 }
