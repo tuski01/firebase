@@ -109,12 +109,18 @@
 
             <ImageView
                 android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_height="300dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:src="@mipmap/ic_launcher"
                 android:layout_marginBottom="50dp"
                 />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"/>
 
 
         </LinearLayout>

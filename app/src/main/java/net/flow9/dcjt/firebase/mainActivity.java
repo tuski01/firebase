@@ -129,7 +129,6 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         findpost_recyclerview.setAdapter(find_adapter);
         new find_BackgroundTask().execute();
         find_adapter.notifyDataSetChanged();
-
     }
     public void lost_object_list(){
         postlist2 = new ArrayList<>();

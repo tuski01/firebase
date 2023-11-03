@@ -98,7 +98,7 @@ public class Find_Post_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_lost);
+        setContentView(R.layout.activity_post_find);
 
         SharedPreferences sharedPre = this.getSharedPreferences("shared", Context.MODE_PRIVATE);
         String strEmail = sharedPre.getString("email", "");

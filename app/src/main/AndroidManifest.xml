@@ -22,7 +22,9 @@
         android:theme="@style/Theme.Firebase"
         android:usesCleartextTraffic="true"
         tools:targetApi="29">
-
+        <activity
+            android:name=".find_object_load"
+            android:exported="false" />
         <activity
             android:name=".splashActivity"
             android:exported="true">
@@ -32,9 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".chatRoomActivity"
-            android:exported="false" />
+        <activity android:name=".chatRoomActivity" />
         <activity android:name=".Lost_Object_detail" />
         <activity android:name=".Find_Object_detail" />
         <activity android:name=".mainActivity" />

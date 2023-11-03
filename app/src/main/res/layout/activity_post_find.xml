@@ -118,6 +118,16 @@
             android:text="습득 장소"
             android:textSize="20sp" />
 
+        <WebView
+            android:id="@+id/post_map_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="invisible"
+            />
+
         <EditText
             android:id="@+id/post_title_edit"
             android:layout_width="match_parent"

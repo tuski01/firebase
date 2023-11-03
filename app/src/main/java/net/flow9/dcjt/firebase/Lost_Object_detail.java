@@ -1,6 +1,7 @@
 package net.flow9.dcjt.firebase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +14,14 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
+import net.flow9.dcjt.firebase.adapters.find_PostAdapter;
+import net.flow9.dcjt.firebase.adapters.lost_PostAdapter;
+import net.flow9.dcjt.firebase.model.Post;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class Lost_Object_detail extends AppCompatActivity {
@@ -33,6 +40,7 @@ public class Lost_Object_detail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost_object_detail);
 
+
         ObjNum = getIntent().getStringExtra("ObjNum");
 
         lost_object_img = findViewById(R.id.lost_object_img);
@@ -43,6 +51,7 @@ public class Lost_Object_detail extends AppCompatActivity {
         lost_object_content = findViewById(R.id.lost_object_content);
 
     }
+
 
     @Override
     protected void onStart() {
