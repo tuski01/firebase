@@ -52,12 +52,21 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
     private static final int SEARCH_REQUEST_CODE = 1;
     private ImageView search;
 
+    private TextView tv;
+    private MyApplication myApplication;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_map, container, false);
 
         NaverMapSdk.getInstance(requireContext()).setClient(new NaverMapSdk.NaverCloudPlatformClient("0sjriog3ai"));
+
+        tv = view.findViewById(R.id.tv_address);
+        myApplication = (MyApplication) getActivity().getApplication();
+        String address = myApplication.getSelectedAddress();
+        if (address != null) {
+            tv.setText(address);
+        }
 
         mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -77,7 +86,7 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
         fab_sub2.setOnClickListener(this);
 
         mtvAddress = view.findViewById(R.id.tv_address);
-        mtvAddress.setFocusable(false);
+
 
         search = view.findViewById(R.id.search);
 
@@ -87,8 +96,8 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
         activity.setSupportActionBar(toolbar);
 
         search.setOnClickListener(v -> {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                getSearchResult.launch(intent);
+            Intent intent = new Intent(getActivity(), SearchActivity.class);
+            getSearchResult.launch(intent);
         });
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         return view;
