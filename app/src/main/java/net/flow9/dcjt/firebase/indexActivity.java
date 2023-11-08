@@ -37,6 +37,7 @@ public class indexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
         userNickname = getIntent().getStringExtra("userNickname");
+        System.out.println(userID);
         userID = getIntent().getStringExtra("userID");
         ma = new mainActivity();
         ca = new chatActivity();

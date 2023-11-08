@@ -70,6 +70,10 @@ public class myPageActivity2 extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getActivity(), find_object_load.class);
                 startActivity(intent);
                 break;
+            case R.id.lost_Object_load:
+                Intent intent1 = new Intent(getActivity(), lost_object_load.class);
+                startActivity(intent1);
+                break;
             case R.id.btn_logout:
                 indexActivity.userNickname = null;
                 Intent intent3 = new Intent(getActivity(), indexActivity.class);

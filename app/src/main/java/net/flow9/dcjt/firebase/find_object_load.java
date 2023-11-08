@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,15 +40,26 @@ public class find_object_load extends AppCompatActivity {
     private RecyclerView find_object_list;
     private RecyclerView.LayoutManager LayoutManager;
     private String postData = indexActivity.userID;
+    private TextView lostpost_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_object_load);
 
+        lostpost_title = findViewById(R.id.lost_post_title);
         find_object_list = findViewById(R.id.find_object_list);
         LayoutManager = new LinearLayoutManager(getApplicationContext());
         find_object_list.setLayoutManager(LayoutManager);
+
+        lostpost_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(find_object_load.this, lost_object_load.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -66,10 +80,13 @@ public class find_object_load extends AppCompatActivity {
         String target;
 
         protected void onPreExecute(){
-            if (indexActivity.userID.equals("qwer")) {
-                target = "http://49.50.175.166/find_object_load_qwer.php";
+            if(indexActivity.userID == null){
+                Intent intent = new Intent(find_object_load.this, LoginActivity.class);
+                startActivity(intent);
+            } else if (indexActivity.userID.equals("qwer")) {
+                target = "http://49.50.175.166/find_object_load/find_object_load_qwer.php";
             } else if (indexActivity.userID.equals("aaa")){
-                target = "http://49.50.175.166/find_object_load_aaa.php";
+                target = "http://49.50.175.166/find_object_load/find_object_load_aaa.php";
             }
 
         }
