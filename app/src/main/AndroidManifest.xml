@@ -23,6 +23,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="29">
         <activity
+            android:name=".lost_object_load"
+            android:exported="false" />
+        <activity
             android:name=".find_object_load"
             android:exported="false" />
         <activity
