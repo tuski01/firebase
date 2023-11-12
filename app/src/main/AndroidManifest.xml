@@ -41,11 +41,11 @@
         <activity android:name=".indexActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".qnaActivity" />
-        <activity android:name=".member_update_Activity" />
         <activity android:name=".uploadActivity" />
         <activity android:name=".Lost_Post_Activity" />
         <activity android:name=".Find_Post_Activity" />
         <activity android:name=".SearchActivity" />
+        <activity android:name=".Search2Activity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".Login_Request" />
         <activity android:name=".myPageActivity" />
