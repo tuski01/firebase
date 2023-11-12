@@ -88,6 +88,7 @@ import android.location.Geocoder;
 public class Find_Post_Activity extends AppCompatActivity implements OnMapReadyCallback{
 
 
+
     private int REQUEST_IMAGE_CODE = 1001;
     private int REQUEST_EXTERNAL_STORAGE_PERMISSIONS = 1002;
     String encodeImageString;

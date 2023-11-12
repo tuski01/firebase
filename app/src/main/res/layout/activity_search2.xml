@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"

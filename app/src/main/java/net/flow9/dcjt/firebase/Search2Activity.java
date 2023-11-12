@@ -16,6 +16,7 @@ import java.util.List;
 
 public class Search2Activity extends AppCompatActivity {
 
+
     private static String IP_ADDRESS = "49.50.175.166";
 
 
