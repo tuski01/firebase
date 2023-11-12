@@ -108,17 +108,6 @@
                 android:src="@drawable/calendar_month" />
             
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textview4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="분실 예상 장소"
-            android:textSize="20sp" />
-
         <EditText
             android:id="@+id/post_title_edit"
             android:layout_width="match_parent"
