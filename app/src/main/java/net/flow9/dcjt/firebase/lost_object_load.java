@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,37 +35,38 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class find_object_load extends AppCompatActivity {
+public class lost_object_load extends AppCompatActivity {
 
     private ArrayList<Post> postlist;
     private find_PostAdapter find_adapter;
     private RecyclerView find_object_list;
     private RecyclerView.LayoutManager LayoutManager;
     private String postData = indexActivity.userID;
-    private TextView lostpost_title;
-    private ImageView find_object_load_back_btn;
+    private TextView findpost_title;
+    private ImageView load_object_load_back_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_object_load);
+        setContentView(R.layout.activity_lost_object_load);
 
-        lostpost_title = findViewById(R.id.lost_post_title);
+        findpost_title = findViewById(R.id.find_post_title);
         find_object_list = findViewById(R.id.find_object_list);
         LayoutManager = new LinearLayoutManager(getApplicationContext());
         find_object_list.setLayoutManager(LayoutManager);
-        find_object_load_back_btn = findViewById(R.id.find_object_load_back_btn);
-        find_object_load_back_btn.setOnClickListener(new View.OnClickListener() {
+        load_object_load_back_btn = findViewById(R.id.load_object_load_back_btn);
+        load_object_load_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        lostpost_title.setOnClickListener(new View.OnClickListener() {
+
+        findpost_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(find_object_load.this, lost_object_load.class);
+                Intent intent = new Intent(lost_object_load.this, find_object_load.class);
                 startActivity(intent);
                 finish();
             }
@@ -74,10 +76,10 @@ public class find_object_load extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        find_object_list();
+        lost_object_list();
     }
 
-    public void find_object_list(){
+    public void lost_object_list(){
         postlist = new ArrayList<>();
         find_adapter = new find_PostAdapter(postlist, getApplicationContext());
         find_object_list.setAdapter(find_adapter);
@@ -90,12 +92,12 @@ public class find_object_load extends AppCompatActivity {
 
         protected void onPreExecute(){
             if(indexActivity.userID == null){
-                Intent intent = new Intent(find_object_load.this, LoginActivity.class);
+                Intent intent = new Intent(lost_object_load.this, LoginActivity.class);
                 startActivity(intent);
             } else if (indexActivity.userID.equals("qwer")) {
-                target = "http://49.50.175.166/find_object_load/find_object_load_qwer.php";
+                target = "http://49.50.175.166/lost_object_load/lost_object_load_qwer.php";
             } else if (indexActivity.userID.equals("aaa")){
-                target = "http://49.50.175.166/find_object_load/find_object_load_aaa.php";
+                target = "http://49.50.175.166/lost_object_load/lost_object_load_aaa.php";
             }
 
         }
@@ -148,7 +150,7 @@ public class find_object_load extends AppCompatActivity {
                 while(count < jsonArray.length()){
                     JSONObject object2 = jsonArray.getJSONObject(count);
                     ObjNum = object2.getString("ObjNum");
-                    img = "http://49.50.175.166/images/findpost/" + object2.getString("img");
+                    img = "http://49.50.175.166/images/lostpost/" + object2.getString("img");
                     L_category = object2.getString("Lcategory");
                     M_category = object2.getString("Mcategory");
                     title = object2.getString("title");

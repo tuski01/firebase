@@ -43,6 +43,7 @@ public class myPageActivity extends Fragment implements View.OnClickListener{
         Inquiry.setOnClickListener(this);
         User_information_update.setOnClickListener(this);
         app_setting.setOnClickListener(this);
+        btn_login.setOnClickListener(this);
 
 
 
@@ -57,6 +58,10 @@ public class myPageActivity extends Fragment implements View.OnClickListener{
             case R.id.find_Object_load:
                 Intent intent = new Intent(getActivity(), find_object_load.class);
                 startActivity(intent);
+                break;
+            case R.id.lost_Object_load:
+                Intent intent1 = new Intent(getActivity(), lost_object_load.class);
+                startActivity(intent1);
                 break;
             case R.id.btn_login:
                 Intent intent4 = new Intent(getActivity(), LoginActivity.class);

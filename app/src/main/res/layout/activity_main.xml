@@ -56,16 +56,16 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-            <TextView
-                android:text="최근 습득물"
-                android:textSize="24dp"
-                android:textColor="@color/black"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="최근 습득물"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/findpost_list"
@@ -73,7 +73,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_margin="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
 
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -83,7 +85,8 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_height="wrap_content"/>
 
 
@@ -91,8 +94,10 @@
                 android:id="@+id/lostpost_list"
                 android:overScrollMode="never"
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
-                android:layout_margin="5dp"
+                android:layout_height="480dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical"/>
 

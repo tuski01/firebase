@@ -8,5 +8,6 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#C1C2E6</color>
     <color name="browser_actions_bg_grey">#e9e9e9</color>
 </resources>
