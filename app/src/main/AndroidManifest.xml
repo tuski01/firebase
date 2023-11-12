@@ -22,12 +22,7 @@
         android:theme="@style/Theme.Firebase"
         android:usesCleartextTraffic="true"
         tools:targetApi="29">
-        <activity
-            android:name=".lost_object_load"
-            android:exported="false" />
-        <activity
-            android:name=".find_object_load"
-            android:exported="false" />
+
         <activity
             android:name=".splashActivity"
             android:exported="true">
@@ -37,6 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".User_info_update" />
+        <activity android:name=".lost_object_load" />
+        <activity android:name=".find_object_load" />
         <activity android:name=".chatRoomActivity" />
         <activity android:name=".Lost_Object_detail" />
         <activity android:name=".Find_Object_detail" />
@@ -44,11 +42,11 @@
         <activity android:name=".indexActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".qnaActivity" />
-        <activity android:name=".member_update_Activity" />
         <activity android:name=".uploadActivity" />
         <activity android:name=".Lost_Post_Activity" />
         <activity android:name=".Find_Post_Activity" />
         <activity android:name=".SearchActivity" />
+        <activity android:name=".SearchActivity2" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".Login_Request" />
         <activity android:name=".myPageActivity" />

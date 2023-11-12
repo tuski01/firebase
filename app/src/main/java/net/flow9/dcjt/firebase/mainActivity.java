@@ -304,7 +304,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
         }
     }
 
-    private final ActivityResultLauncher<Intent> getSearchResult = registerForActivityResult(
+    private  ActivityResultLauncher<Intent> getSearchResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK) {

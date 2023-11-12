@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -41,6 +43,7 @@ public class lost_object_load extends AppCompatActivity {
     private RecyclerView.LayoutManager LayoutManager;
     private String postData = indexActivity.userID;
     private TextView findpost_title;
+    private ImageView load_object_load_back_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,14 @@ public class lost_object_load extends AppCompatActivity {
         find_object_list = findViewById(R.id.find_object_list);
         LayoutManager = new LinearLayoutManager(getApplicationContext());
         find_object_list.setLayoutManager(LayoutManager);
+        load_object_load_back_btn = findViewById(R.id.load_object_load_back_btn);
+        load_object_load_back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
         findpost_title.setOnClickListener(new View.OnClickListener() {
             @Override
