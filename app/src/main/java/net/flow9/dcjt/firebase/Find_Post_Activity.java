@@ -1,5 +1,6 @@
 package net.flow9.dcjt.firebase;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
 import static net.flow9.dcjt.firebase.R.array.A_category;
 import static net.flow9.dcjt.firebase.R.array.B_category;
 import static net.flow9.dcjt.firebase.R.array.Book_category;
@@ -19,11 +20,15 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.AttributeSet;
 import android.util.Base64;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +39,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,6 +62,13 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraUpdate;
+import com.naver.maps.map.MapView;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.NaverMapSdk;
+import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.Marker;
 
 import net.flow9.dcjt.firebase.adapters.lost_PostAdapter;
 import net.flow9.dcjt.firebase.model.Post;
@@ -68,7 +82,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Find_Post_Activity extends AppCompatActivity {
+import android.location.Address;
+import android.location.Geocoder;
+
+public class Find_Post_Activity extends AppCompatActivity implements OnMapReadyCallback{
+
 
     private int REQUEST_IMAGE_CODE = 1001;
     private int REQUEST_EXTERNAL_STORAGE_PERMISSIONS = 1002;
@@ -95,14 +113,33 @@ public class Find_Post_Activity extends AppCompatActivity {
 
     private Button confirm_btn;
 
+    private TextView map_add;
+    private ImageView find_location;
+    private View view;
+    private NaverMap mNaverMap;
+    private MapView mapView;
+    private String mapAddress;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_find);
+        NaverMapSdk.getInstance(getApplicationContext()).setClient(new NaverMapSdk.NaverCloudPlatformClient("0sjriog3ai"));
 
         SharedPreferences sharedPre = this.getSharedPreferences("shared", Context.MODE_PRIVATE);
         String strEmail = sharedPre.getString("email", "");
 
+        map_add = findViewById(R.id.map_add);
+        find_location = findViewById(R.id.map_btn);
+        mapView = findViewById(R.id.map);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+        find_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Find_Post_Activity.this, Search2Activity.class);
+                getSearchResult.launch(intent);
+            }
+        });
 
         L_categorySp = findViewById(R.id.spinner);
         M_categorySp = findViewById(R.id.spinner2);
@@ -282,6 +319,8 @@ public class Find_Post_Activity extends AppCompatActivity {
         });
     }
 
+
+
     private void uploadDataToDB()
     {
         String L_category = L_categorySp.getSelectedItem().toString();
@@ -290,6 +329,7 @@ public class Find_Post_Activity extends AppCompatActivity {
         String title = E_title.getText().toString();
         String contents = E_contents.getText().toString().trim();
         String userID = indexActivity.userID;
+        String mapAdd = map_add.getText().toString();
 
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -317,6 +357,7 @@ public class Find_Post_Activity extends AppCompatActivity {
                 map.put("title", title);
                 map.put("contents", contents);
                 map.put("userID", userID);
+                map.put("mapAddress", mapAdd);
                 return map;
 
 
@@ -359,5 +400,93 @@ public class Find_Post_Activity extends AppCompatActivity {
     private void startToast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
+        mNaverMap = naverMap;
+        String address = map_add.getText().toString();
+        LatLng latLng = convertAddressToLatLng(address);
+        if (latLng != null) {
+            Marker marker = new Marker();
+            marker.setPosition(latLng);
+            marker.setMap(mNaverMap);
+            naverMap.moveCamera(CameraUpdate.scrollTo(latLng));
+        }
+    }
+
+    private LatLng convertAddressToLatLng(String address) {
+        try{
+            Geocoder geocoder = new Geocoder(getApplicationContext());
+            // 주소를 좌표로 변환
+            List<Address> addresses = geocoder.getFromLocationName(address, 1);
+            if (!addresses.isEmpty()) {
+                Address firstAddress = addresses.get(0);
+                double latitude = firstAddress.getLatitude();
+                double longitude = firstAddress.getLongitude();
+                return new LatLng(latitude, longitude);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    private final ActivityResultLauncher<Intent> getSearchResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
+                        double latitude = result.getData().getDoubleExtra("latitude2", 0.0);
+                        double longitude = result.getData().getDoubleExtra("longitude2", 0.0);
+                        String data = result.getData().getStringExtra("data2");
+
+                        map_add.setText(data);
+                        mapAddress = data; // 검색한 주소를 변수에 저장
+
+
+                        updateMapLocation(new LatLng(latitude, longitude));
+                    }
+                }
+            }
+    );
+
+
+    private void updateMapLocation(LatLng location) {
+        if (mNaverMap != null) {
+            mNaverMap.moveCamera(CameraUpdate.scrollTo(location));
+            Marker marker = new Marker();
+            marker.setPosition(location);
+            marker.setMap(mNaverMap);
+        }
+    }
+
+
 
 }

@@ -106,27 +106,47 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:src="@drawable/calendar_month" />
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textview4"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="습득 장소"
-            android:textSize="20sp" />
+            android:gravity="start"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
 
-        <WebView
-            android:id="@+id/post_map_view"
+            <TextView
+                android:id="@+id/map_add"
+                android:layout_width="340dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:textSize="24sp"
+                android:layout_weight="3"
+                android:text="습득장소"/>
+
+            <ImageView
+                android:id="@+id/map_btn"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:src="@drawable/mapicon2" />
+
+        </LinearLayout>
+
+        <com.naver.maps.map.MapView
+            android:id="@+id/map"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            android:visibility="invisible"
+
             />
+
+
 
         <EditText
             android:id="@+id/post_title_edit"
