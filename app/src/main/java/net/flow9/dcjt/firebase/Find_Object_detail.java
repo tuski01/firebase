@@ -1,6 +1,9 @@
 package net.flow9.dcjt.firebase;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +26,7 @@ public class Find_Object_detail extends AppCompatActivity {
     private TextView find_object_Mcategory;
     private TextView find_object_date;
     private TextView find_object_content;
+    private Button chat_btn;
     String ObjNum;
 
 
@@ -40,6 +44,14 @@ public class Find_Object_detail extends AppCompatActivity {
         find_object_Mcategory = findViewById(R.id.find_object_Mcategory);
         find_object_date = findViewById(R.id.find_object_date);
         find_object_content = findViewById(R.id.find_object_content);
+        chat_btn = findViewById(R.id.chat_btn);
+        chat_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), chatRoomActivity.class);
+            }
+        });
+
 
     }
 

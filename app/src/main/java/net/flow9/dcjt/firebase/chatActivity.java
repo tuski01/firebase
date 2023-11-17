@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,28 +16,19 @@ import androidx.fragment.app.Fragment;
 
 public class chatActivity extends Fragment {
     private View view;
-    private ImageView img;
-    private TextView tv;
-    private MyApplication myApplication;
+    private Button btn;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_chat, container, false);
 
-        img = view.findViewById(R.id.img);
-        tv = view.findViewById(R.id.tv_address);
-
-        myApplication = (MyApplication) getActivity().getApplication();
-        String address = myApplication.getSelectedAddress();
-        if (address != null) {
-            tv.setText(address);
-        }
-
-
-        img.setOnClickListener(v ->{
-            Intent intent1 = new Intent(getActivity(), chatRoomActivity.class);
-            startActivity(intent1);
+        btn = view.findViewById(R.id.test_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
         });
 
 
