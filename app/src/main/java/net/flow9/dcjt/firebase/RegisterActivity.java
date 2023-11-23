@@ -10,11 +10,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,11 +32,16 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText E_Email, E_Pass, E_Nickname, E_Password_check, E_Phone, E_Name, E_Address;      // 로그인 입력필드
     private boolean validate = false;
+    private FirebaseAuth mfirebaseAuth;
+    private DatabaseReference mDatabaseRef;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
+
+        mfirebaseAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("User");
 
         E_Email = findViewById(R.id.e_email);
         E_Pass = findViewById(R.id.e_password);
@@ -92,10 +105,27 @@ public class RegisterActivity extends AppCompatActivity {
                 String userAddress = E_Address.getText().toString();
                 String userName = E_Name.getText().toString();
 
-                /* if(!validate){
-                    Toast.makeText(RegisterActivity.this, "먼저 중복 체크를 해주세요", Toast.LENGTH_SHORT).show();
-                    return;
-                }*/
+                    mfirebaseAuth.createUserWithEmailAndPassword(userID, userPw).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                FirebaseUser firebaseUser = mfirebaseAuth.getCurrentUser();
+
+                                UserAccount account = new UserAccount();
+                                account.setIdToken(firebaseUser.getUid());
+                                account.setEmailId(firebaseUser.getEmail());
+                                account.setPassword(userPw);
+
+
+                                mDatabaseRef.child("userAccount").child(firebaseUser.getUid()).setValue(account);
+
+                                // mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
+                                Toast.makeText(RegisterActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 
                 if(userID.equals("") || userPw.equals("") || userNickname.equals("") ||userPhone.equals("") || userAddress.equals("") || userName.equals("")){
                     Toast.makeText(getApplicationContext(), "빈칸이 존재하면 안됩니다.", Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package net.flow9.dcjt.firebase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +24,8 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mEtEmail, mEtPwd;      // 로그인 입력필드
+
+    private FirebaseAuth mfirebaseAuth;
 
 
 
@@ -30,8 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         mEtEmail = findViewById(R.id.e_email);
         mEtPwd = findViewById(R.id.e_password);
 
-
-
+        mfirebaseAuth = FirebaseAuth.getInstance();
 
         Button btn_login = findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +46,18 @@ public class LoginActivity extends AppCompatActivity {
                 // 로그인 요청
                 String userID = mEtEmail.getText().toString();
                 String userPW = mEtPwd.getText().toString();
+
+                mfirebaseAuth.signInWithEmailAndPassword(userID, userPW).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+
+                        } else {
+                            Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
 
                 Response.Listener<String> responseListener = new Response.Listener<String>(){
                     @Override
