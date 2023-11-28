@@ -19,6 +19,7 @@ import net.flow9.dcjt.firebase.R;
 import net.flow9.dcjt.firebase.model.Post;
 
 import java.util.ArrayList;
+
 public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.CustomViewHolder> {
 
         private ArrayList<Post> arrayList;

@@ -32,8 +32,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText E_Email, E_Pass, E_Nickname, E_Password_check, E_Phone, E_Name, E_Address;      // 로그인 입력필드
     private boolean validate = false;
+
     private FirebaseAuth mfirebaseAuth;
+
     private DatabaseReference mDatabaseRef;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +46,11 @@ public class RegisterActivity extends AppCompatActivity {
         mfirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("User");
 
+
+
         E_Email = findViewById(R.id.e_email);
         E_Pass = findViewById(R.id.e_password);
         E_Nickname = findViewById(R.id.e_nickname);
-        E_Password_check = findViewById(R.id.e_password_check);
         E_Phone = findViewById(R.id.e_phone);
         E_Address = findViewById(R.id.e_address);
         E_Name = findViewById(R.id.e_name);
@@ -58,13 +62,20 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String userID = E_Email.getText().toString();
-                if(validate){
-                    return;
-                }
-                if(userID.equals("")){
-                    Toast.makeText(RegisterActivity.this, "아이디는 빈칸일 수 없습니다.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                String userPw =  E_Pass.getText().toString();
+
+                mfirebaseAuth.createUserWithEmailAndPassword(userID, userPw).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        FirebaseUser firebaseUser = mfirebaseAuth.getCurrentUser();
+                        UserAccount userAccount = new UserAccount();
+                        userAccount.setIdToken(firebaseUser.getUid());
+                        userAccount.setEmailId(firebaseUser.getEmail());
+                        userAccount.setPassword(userPw);
+                        mDatabaseRef.child("userAccount").child(firebaseUser.getUid()).setValue(userAccount);
+                    }
+                });
+
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -73,12 +84,14 @@ public class RegisterActivity extends AppCompatActivity {
                             boolean success = jsonResponse.getBoolean("success");
                             System.out.println(success);
                             if(success){
+                                Toast.makeText(RegisterActivity.this, "사용할 수 없는 아이디", Toast.LENGTH_SHORT).show();
+
+                            } else {
                                 Toast.makeText(RegisterActivity.this, "사용할 수 있는 아이디", Toast.LENGTH_SHORT).show();
                                 E_Email.setEnabled(false);
+                                E_Pass.setEnabled(false);
                                 validate_btn.setEnabled(false);
                                 validate = true;
-                            } else {
-                                Toast.makeText(RegisterActivity.this, "사용할 수 없는 아이디", Toast.LENGTH_SHORT).show();
                             }
                         }catch(Exception e){
                             e.printStackTrace();
@@ -105,59 +118,31 @@ public class RegisterActivity extends AppCompatActivity {
                 String userAddress = E_Address.getText().toString();
                 String userName = E_Name.getText().toString();
 
-                    mfirebaseAuth.createUserWithEmailAndPassword(userID, userPw).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                FirebaseUser firebaseUser = mfirebaseAuth.getCurrentUser();
-
-                                UserAccount account = new UserAccount();
-                                account.setIdToken(firebaseUser.getUid());
-                                account.setEmailId(firebaseUser.getEmail());
-                                account.setPassword(userPw);
-
-
-                                mDatabaseRef.child("userAccount").child(firebaseUser.getUid()).setValue(account);
-
-                                // mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
-                                Toast.makeText(RegisterActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(RegisterActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                boolean success = jsonObject.getBoolean("success");
+                                if(success){
+                                    Toast.makeText(getApplicationContext(), "회원 등록에 성공", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "회원 등록에 실패", Toast.LENGTH_SHORT).show();
+                                    return ;
+                                }
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
                             }
-                        }
-                    });
 
-                if(userID.equals("") || userPw.equals("") || userNickname.equals("") ||userPhone.equals("") || userAddress.equals("") || userName.equals("")){
-                    Toast.makeText(getApplicationContext(), "빈칸이 존재하면 안됩니다.", Toast.LENGTH_SHORT).show();
-                    return ;
+                        }
+                    };
+
+                    RegisterRequest registerRequest = new RegisterRequest(userID, userPw ,userName, userPhone, userAddress,userNickname, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
+                    queue.add(registerRequest);
                 }
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            boolean success = jsonObject.getBoolean("success");
-                            if(success){
-                                Toast.makeText(getApplicationContext(), "회원 등록에 성공", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(getApplicationContext(), "회원 등록에 실패", Toast.LENGTH_SHORT).show();
-                                return ;
-                            }
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                    }
-                };
-
-                RegisterRequest registerRequest = new RegisterRequest(userID, userPw ,userName, userPhone, userAddress,userNickname, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-                queue.add(registerRequest);
-
-            }
-
         });
     }
 

@@ -31,7 +31,7 @@
             android:layout_weight="1">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/chat_recyclerView"
+                android:id="@+id/recycler_chatroom_msg_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
@@ -71,6 +71,7 @@
                         app:tint="@color/PrimaryColor" />
 
                     <EditText
+                        android:id="@+id/msg_send_input"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -89,6 +90,7 @@
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/msg_send_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"

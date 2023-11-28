@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "596004765833",
-    "firebase_url": "https://dcj-project-47056-default-rtdb.firebaseio.com",
-    "project_id": "dcj-project-47056",
-    "storage_bucket": "dcj-project-47056.appspot.com"
+    "project_number": "972114166169",
+    "firebase_url": "https://dcjt-ea3e6-default-rtdb.firebaseio.com",
+    "project_id": "dcjt-ea3e6",
+    "storage_bucket": "dcjt-ea3e6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:596004765833:android:9f11fc13e6f1616c55c658",
+        "mobilesdk_app_id": "1:972114166169:android:3d4b5771c240f112315308",
         "android_client_info": {
           "package_name": "net.flow9.dcjt.firebase"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBJ4Z02GrOTN9s07Dt8ACUI4eP22CUm7w4"
+          "current_key": "AIzaSyBWpJagUJO4Vn_i3yJOfo8Vbwbvgw0DjQA"
         }
       ],
       "services": {

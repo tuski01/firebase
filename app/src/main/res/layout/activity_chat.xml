@@ -49,19 +49,12 @@
                     android:hint="주소미지정" />
             </androidx.appcompat.widget.Toolbar>
 
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/chat_list"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:overScrollMode="never"-->
-<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>-->
-
-            <Button
-                android:id="@+id/test_btn"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chat_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="kkk"
-                />
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         </LinearLayout>
 
