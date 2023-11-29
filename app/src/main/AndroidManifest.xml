@@ -34,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".chatActivity" />
         <activity android:name=".chatRoomActivity" />
         <activity android:name=".Lost_Object_detail" />
         <activity android:name=".Find_Object_detail" />
