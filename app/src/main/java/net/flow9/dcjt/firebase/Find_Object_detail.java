@@ -86,4 +86,5 @@ public class Find_Object_detail extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(Find_Object_detail.this);
         queue.add(detail_request);
     }
+
 }
