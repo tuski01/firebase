@@ -51,6 +51,8 @@
         <activity android:name=".Login_Request" />
         <activity android:name=".myPageActivity" />
         <activity android:name=".myPageActivity2" />
+        <activity android:name=".map_lost_Activity"/>
+        <activity android:name=".mapActivity"/>
 
     </application>
 

@@ -142,7 +142,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-
             />
         <EditText
             android:id="@+id/post_title_edit"
