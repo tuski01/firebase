@@ -7,33 +7,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.flow9.dcjt.firebase.Find_Object_detail;
 import net.flow9.dcjt.firebase.R;
 import net.flow9.dcjt.firebase.User;
 import net.flow9.dcjt.firebase.chatRoomActivity;
-import net.flow9.dcjt.firebase.model.ChatModel;
-import net.flow9.dcjt.firebase.model.UserAccount;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder>{
     private ArrayList<User> mDataset;
     private Context context;
     private String userID = "";
 
 
-    public ChatAdapter(ArrayList<User> mDataset,  String userID, Context context) {
+    public UserAdapter(ArrayList<User> mDataset,  String userID, Context context) {
         this.mDataset = mDataset;
         this.userID = userID;
         this.context = context;
     }
 
-
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView Chat_list;
+
         public MyViewHolder(View v){
             super(v);
             Chat_list = v.findViewById(R.id.chat_list_userID);
@@ -41,15 +38,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     }
 
 
-    public ChatAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    @NonNull
+    @Override
+    public ChatAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_list, parent, false);
 
-        MyViewHolder vh = new MyViewHolder(v);
+        ChatAdapter.MyViewHolder vh = new ChatAdapter.MyViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull ChatAdapter.MyViewHolder holder, int position) {
         holder.Chat_list.setText(mDataset.get(position).getEmailId());
 
         holder.Chat_list.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +61,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return mDataset.size();
     }
 }

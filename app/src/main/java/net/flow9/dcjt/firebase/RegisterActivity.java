@@ -69,10 +69,8 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         FirebaseUser firebaseUser = mfirebaseAuth.getCurrentUser();
                         UserAccount userAccount = new UserAccount();
-                        userAccount.setIdToken(firebaseUser.getUid());
                         userAccount.setEmailId(firebaseUser.getEmail());
-                        userAccount.setPassword(userPw);
-                        mDatabaseRef.child("userAccount").child(firebaseUser.getUid()).setValue(userAccount);
+                        mDatabaseRef.child(firebaseUser.getUid()).setValue(userAccount);
                     }
                 });
 
@@ -107,43 +105,48 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         Button b_confirm = findViewById(R.id.b_confirm);
-        b_confirm.setOnClickListener(new View.OnClickListener() {
+
+            b_confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
-            public void onClick(View view) {
-                // 회원가입 처리 시작
-                String userID = E_Email.getText().toString();
-                String userPw =  E_Pass.getText().toString();
-                String userNickname = E_Nickname.getText().toString();
-                String userPhone = E_Phone.getText().toString();
-                String userAddress = E_Address.getText().toString();
-                String userName = E_Name.getText().toString();
-
-                    Response.Listener<String> responseListener = new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                boolean success = jsonObject.getBoolean("success");
-                                if(success){
-                                    Toast.makeText(getApplicationContext(), "회원 등록에 성공", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "회원 등록에 실패", Toast.LENGTH_SHORT).show();
-                                    return ;
+                public void onClick(View view) {
+                    // 회원가입 처리 시작
+                    String userID = E_Email.getText().toString();
+                    String userPw =  E_Pass.getText().toString();
+                    String userNickname = E_Nickname.getText().toString();
+                    String userPhone = E_Phone.getText().toString();
+                    String userAddress = E_Address.getText().toString();
+                    String userName = E_Name.getText().toString();
+                    if(validate == true) {
+                        Response.Listener<String> responseListener = new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    boolean success = jsonObject.getBoolean("success");
+                                    if (success) {
+                                        Toast.makeText(getApplicationContext(), "회원 등록에 성공", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "회원 등록에 실패", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
                                 }
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
+
                             }
+                        };
 
+                        RegisterRequest registerRequest = new RegisterRequest(userID, userPw, userName, userPhone, userAddress, userNickname, responseListener);
+                        RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
+                        queue.add(registerRequest);
+                    } else {
+                            Toast.makeText(getApplicationContext(), "중복 체크를 해주세요", Toast.LENGTH_SHORT).show();
+                            return ;
                         }
-                    };
-
-                    RegisterRequest registerRequest = new RegisterRequest(userID, userPw ,userName, userPhone, userAddress,userNickname, responseListener);
-                    RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
-                    queue.add(registerRequest);
                 }
-        });
+            });
     }
 
 }

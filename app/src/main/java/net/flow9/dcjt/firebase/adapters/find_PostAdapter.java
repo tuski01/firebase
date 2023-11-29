@@ -68,7 +68,6 @@ public class find_PostAdapter extends RecyclerView.Adapter<find_PostAdapter.Cust
         public int getItemCount() {
             return (null != arrayList ? arrayList.size() : 0);
         }
-
         public class CustomViewHolder extends RecyclerView.ViewHolder {
             protected ImageView item_post_image;
             protected TextView L_category;

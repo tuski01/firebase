@@ -110,15 +110,6 @@
             android:textSize="12dp" />
 
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="중복"
-            android:textSize="12dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/validate_btn"/>
 
 
         <TextView
@@ -161,7 +152,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="25"
-            android:hint="사용할 닉네임을 입력해주세요"
+            android:hint="휴대전화 번호를ㅂㅈㄷ 입력해주세요"
             android:textColorHint="#c4c4c4"
             android:textSize="12dp"
             android:layout_marginLeft="20dp"
@@ -217,6 +208,17 @@
             android:layout_marginTop="10dp" />
 
 
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="아이디 중복 체크"
+            android:textSize="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/validate_btn"/>
+
         <Button
             android:id="@+id/b_confirm"
             android:layout_width="match_parent"
@@ -227,7 +229,7 @@
             android:layout_marginRight="80dp"
             android:layout_marginBottom="60dp"
             android:background="@drawable/confirmbutton"
-            android:text="다음"
+            android:text="회원가입 완료"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
