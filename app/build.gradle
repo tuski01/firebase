@@ -24,8 +24,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_16
+        targetCompatibility JavaVersion.VERSION_16
     }
 }
 
@@ -49,6 +49,9 @@ dependencies {
     implementation 'com.naver.maps:map-sdk:3.16.2'
     implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
 
+    // http통신을 사용하기 위한 Retrofit 라이브러리 의존성 추가 (디비에 있는 값 받아오기)
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 }
 

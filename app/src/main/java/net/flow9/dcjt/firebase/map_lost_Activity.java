@@ -2,26 +2,20 @@ package net.flow9.dcjt.firebase;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -33,10 +27,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.gson.annotations.SerializedName;
-import com.naver.maps.geometry.Coord;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapView;
@@ -46,16 +38,6 @@ import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -65,18 +47,18 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
-public class mapActivity extends Fragment implements OnMapReadyCallback, View.OnClickListener{
+public class map_lost_Activity extends Fragment implements OnMapReadyCallback, View.OnClickListener{
     private View view;
     private MapView mapView;
     private ExtendedFloatingActionButton fab_main, fab_sub1, fab_sub2;
     private Animation fab_open, fab_close;
     private boolean isFabOpen = false;
     private Context mContext;
+
     private FragmentManager fm;
     private FragmentTransaction ft;
-    private map_lost_Activity malo;
-
-    private String int_objnum;
+    private mapActivity malo;
+    private TextView find_btn;
 
     private TextView mtvAddress;
     private NaverMap mNaverMap;
@@ -85,15 +67,13 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
 
     private TextView tv;
     private MyApplication myApplication;
-    private TextView lost_btn;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_map, container, false);
+        view = inflater.inflate(R.layout.activity_map_lost, container, false);
 
         NaverMapSdk.getInstance(requireContext()).setClient(new NaverMapSdk.NaverCloudPlatformClient("0sjriog3ai"));
-
-        malo = new map_lost_Activity();
+        malo = new mapActivity();
         fm = requireActivity().getSupportFragmentManager();
         ft = fm.beginTransaction();
 
@@ -107,8 +87,6 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
         mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-
-        lost_btn = view.findViewById(R.id.lost_btn); // 지도내에 분실물 이동버튼
 
         mContext = view.getContext();
 
@@ -125,7 +103,7 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
 
         mtvAddress = view.findViewById(R.id.tv_address);
 
-
+        find_btn = view.findViewById(R.id.find_btn);
 
         search = view.findViewById(R.id.search);
 
@@ -140,14 +118,13 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
         });
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-        lost_btn.setOnClickListener((new View.OnClickListener() {
+        find_btn.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ft.replace(R.id.main_frame, malo);
                 ft.commit();
             }
         }));
-
         return view;
     }
 
@@ -192,7 +169,7 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
                     for (AddressObj addressObj : addressObjs) {
                         LatLng location = convertAddressToLatLng(addressObj.getAddress());
                         if (location != null) {
-                            updateMapLocation2(location, addressObj.getObjNum());
+                            updateMapLocation3(location, addressObj.getObjNum());
                         }
                     }
                 }
@@ -203,8 +180,6 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
                 t.printStackTrace();
             }
         });
-
-
     }
 
     private LatLng convertAddressToLatLng(String address) {
@@ -222,9 +197,8 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
-
+        return null;
     }
 
     @Override
@@ -274,7 +248,7 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
                         mtvAddress.setText(data);
 
 
-                        updateMapLocation(data);
+                        updateMapLocation(new LatLng(latitude, longitude));
                     }
                 }
             }
@@ -292,19 +266,19 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
 //            updateMapLocation(latLng);
 //        }
 //    }
-    private void updateMapLocation(String address) {
-        LatLng location = convertAddressToLatLng(address);
+
+
+
+    private void updateMapLocation(LatLng location) {
         if (mNaverMap != null) {
             mNaverMap.moveCamera(CameraUpdate.scrollTo(location));
             Marker marker = new Marker();
             marker.setPosition(location);
             marker.setMap(mNaverMap);
-
         }
     }
 
-
-    private void updateMapLocation2(LatLng location, String objNum) {
+    private void updateMapLocation3(LatLng location, String objNum) {
         if (mNaverMap != null) {
             mNaverMap.moveCamera(CameraUpdate.scrollTo(location));
             Marker marker = new Marker();
@@ -318,7 +292,7 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
                     Log.d("mapActivity", "objNum: " + objNum);
 
 
-                    Intent intent = new Intent(getActivity(), Find_Object_detail.class);
+                    Intent intent = new Intent(getActivity(), Lost_Object_detail.class);
                     intent.putExtra("ObjNum", objNum);
                     startActivity(intent);
                     return false;
@@ -329,7 +303,7 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
 
     // 디비에서 주소값 불러오는코드
     public interface ApiService{
-        @GET("map_get_data2.php")
+        @GET("map_get_data.php")
         Call<List<AddressObj>> getAllAddresses();
     }
 
@@ -363,4 +337,6 @@ public class mapActivity extends Fragment implements OnMapReadyCallback, View.On
             return retrofit.create(ApiService.class);
         }
     }
+
+
 }
