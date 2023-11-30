@@ -54,7 +54,12 @@ public class indexActivity extends AppCompatActivity {
                         setFrag(0);
                         break;
                     case R.id.action_chatlist :
-                        setFrag(1);
+                        if(userNickname == null){
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                        } else {
+                            setFrag(1);
+                        }
                         break;
                     case R.id.action_map :
                         setFrag(2);
