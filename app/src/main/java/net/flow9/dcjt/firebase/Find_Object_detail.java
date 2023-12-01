@@ -1,6 +1,5 @@
 package net.flow9.dcjt.firebase;
 
-import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -9,8 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,12 +28,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
 
 
 public class Find_Object_detail extends AppCompatActivity implements OnMapReadyCallback {
@@ -46,6 +37,7 @@ public class Find_Object_detail extends AppCompatActivity implements OnMapReadyC
     private TextView find_object_Mcategory;
     private TextView find_object_date;
     private TextView find_object_content;
+    private TextView find_object_writer;
     String ObjNum;
     private NaverMap mNaverMap;
     private MapView mapView;
@@ -66,6 +58,7 @@ public class Find_Object_detail extends AppCompatActivity implements OnMapReadyC
         find_object_Mcategory = findViewById(R.id.find_object_Mcategory);
         find_object_date = findViewById(R.id.find_object_date);
         find_object_content = findViewById(R.id.find_object_content);
+        find_object_writer = findViewById(R.id.find_object_writer);
 
         mapView = findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -94,6 +87,7 @@ public class Find_Object_detail extends AppCompatActivity implements OnMapReadyC
                         final String title = jsonObject.getString("title");
                         final String finddate = jsonObject.getString("finddate");
                         final String content = jsonObject.getString("content");
+                        final String writer = jsonObject.getString("userId");
                         final String address = jsonObject.getString("address");
 
                         Toast.makeText(getApplicationContext(), "로드 성공", Toast.LENGTH_SHORT).show();
@@ -103,12 +97,12 @@ public class Find_Object_detail extends AppCompatActivity implements OnMapReadyC
                         find_object_Mcategory.setText(Mcategory);
                         find_object_date.setText(finddate);
                         find_object_content.setText(content);
+                        find_object_writer.setText(writer);
+
                         mapAddress=(address);
 
                         Log.d("Find_Object_detail", "address: " + mapAddress);
-                        System.out.println(ObjNum);
-                        System.out.println(img);
-                        System.out.println(Lcategory);
+                        System.out.println(writer);
 
                         } else {
                         Toast.makeText(getApplicationContext(), "로드 실패", Toast.LENGTH_SHORT).show();

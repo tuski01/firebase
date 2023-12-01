@@ -1,10 +1,12 @@
 package net.flow9.dcjt.firebase;
+
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +14,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -21,13 +21,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.AsyncListDiffer;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.naver.maps.geometry.LatLng;
 
 import net.flow9.dcjt.firebase.adapters.find_PostAdapter;
 import net.flow9.dcjt.firebase.adapters.lost_PostAdapter;
@@ -42,7 +39,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 public class mainActivity extends Fragment implements View.OnClickListener {
     private View view;
     private ImageView search;
@@ -186,7 +182,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                String ObjNum, img, L_category, M_category, title, date;
+                String ObjNum, img, L_category, M_category, title, date, writer;
                 while(count < jsonArray.length()){
                     JSONObject object = jsonArray.getJSONObject(count);
                     ObjNum = object.getString("ObjNum");
@@ -240,7 +236,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                String ObjNum, img, L_category, M_category, title, date;
+                String ObjNum, img, L_category, M_category, title, date, writer;
                 while(count < jsonArray.length()){
                     JSONObject object2 = jsonArray.getJSONObject(count);
                     ObjNum = object2.getString("ObjNum");
@@ -250,6 +246,7 @@ public class mainActivity extends Fragment implements View.OnClickListener {
                     title = object2.getString("title");
                     date =  object2.getString("uploadDate");
                     Post post = new Post(ObjNum, img, L_category, M_category, title, date);
+                    Log.d("mainActivity", "post : " + post);
                     postlist.add(post);
 ;
                     count++;

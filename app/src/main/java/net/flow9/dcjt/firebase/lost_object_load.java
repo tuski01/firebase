@@ -1,22 +1,15 @@
 package net.flow9.dcjt.firebase;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.flow9.dcjt.firebase.adapters.find_PostAdapter;
 import net.flow9.dcjt.firebase.model.Post;
@@ -32,8 +25,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class lost_object_load extends AppCompatActivity {
 
@@ -146,7 +137,7 @@ public class lost_object_load extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                String ObjNum, img, L_category, M_category, title, date;
+                String ObjNum, img, L_category, M_category, title, date, writer;
                 while(count < jsonArray.length()){
                     JSONObject object2 = jsonArray.getJSONObject(count);
                     ObjNum = object2.getString("ObjNum");
@@ -155,7 +146,9 @@ public class lost_object_load extends AppCompatActivity {
                     M_category = object2.getString("Mcategory");
                     title = object2.getString("title");
                     date =  object2.getString("uploadDate");
+                    writer = object2.getString("writer");
                     Post post = new Post(ObjNum, img, L_category, M_category, title, date);
+
                     postlist.add(post);
 
                     count++;

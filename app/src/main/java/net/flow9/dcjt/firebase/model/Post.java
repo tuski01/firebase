@@ -1,8 +1,5 @@
 package net.flow9.dcjt.firebase.model;
 
-import android.net.Uri;
-
-
 public class Post {
 
     private String item_post_image;
@@ -11,6 +8,7 @@ public class Post {
     private String item_post_title;
     private String item_post_date;
     private String item_post_ObjNum;
+    private String item_post_writer;
 
 
 
@@ -69,6 +67,14 @@ public class Post {
 
     public void setItem_post_ObjNum(String item_post_ObjNum) {
         this.item_post_ObjNum = item_post_ObjNum;
+    }
+
+    public String getItem_post_writer() {
+        return item_post_writer;
+    }
+
+    public void setItem_post_writer(String item_post_writer) {
+        this.item_post_writer = item_post_writer;
     }
 }
 

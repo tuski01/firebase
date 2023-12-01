@@ -17,6 +17,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     private ArrayList<ChatModel> mDataset;
     private Context context;
     private String userID = "";
+    public int xxx;
 
     public ChatRoomAdapter(ArrayList<ChatModel> mDataset, String userID, Context context) {
         this.mDataset = mDataset;
@@ -26,10 +27,14 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView textview;
+        public TextView youChat;
+        public TextView tvId;
+        public TextView tvChat;
         public MyViewHolder(View v){
             super(v);
-            textview = v.findViewById(R.id.tvChat);
+            tvChat = v.findViewById(R.id.tvChat);
+            youChat = v.findViewById(R.id.youChat);
+            tvId = v.findViewById(R.id.tvId);
         }
     }
 
@@ -61,7 +66,13 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position){
-        holder.textview.setText(mDataset.get(position).getText());
+        if(mDataset.get(position).getUserID().equals(userID)){
+            holder.tvChat.setText(mDataset.get(position).getText());
+        }else {
+            holder.youChat.setText(mDataset.get(position).getText());
+            holder.tvId.setText(mDataset.get(position).getUserID());
+        }
+
 
     }
 
