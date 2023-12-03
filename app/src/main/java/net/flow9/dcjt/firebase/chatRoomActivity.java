@@ -40,6 +40,8 @@ public class chatRoomActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton msg_send_btn;
     private EditText msg_send_input;
+    private String writer;
+    private String room_name;
 
     // firebase
     private FirebaseDatabase firebaseDatabase;
@@ -47,6 +49,7 @@ public class chatRoomActivity extends AppCompatActivity {
     private FirebaseAuth mfirebaseAuth;
     private String userID;
     private ArrayList<ChatModel> chatArrayList;
+    private String Room_name;
 
 
     @Override
@@ -54,14 +57,28 @@ public class chatRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-        chatArrayList = new ArrayList<>();
-
-//      파이어베이스
+        //      파이어베이스
         mfirebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseRef = firebaseDatabase.getReference("Message");
+        Room_name = getIntent().getStringExtra("Room_name");
 
-        userID = indexActivity.userID;
+
+        FirebaseUser firebaseUser = mfirebaseAuth.getCurrentUser();
+
+        userID = getIntent().getStringExtra("writer");
+        room_name = userID + " " + firebaseUser.getUid();
+
+        if(userID == null){
+            mDatabaseRef = firebaseDatabase.getReference("Chat").child(Room_name);
+        } else {
+            mDatabaseRef = firebaseDatabase.getReference("Chat").child(room_name);
+        }
+
+        chatArrayList = new ArrayList<>();
+        Log.d(TAG, room_name);
+
+
+
 
         msg_send_input = findViewById(R.id.msg_send_input);
         msg_send_btn = findViewById(R.id.msg_send_btn);
@@ -69,7 +86,7 @@ public class chatRoomActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new ChatRoomAdapter(chatArrayList,  userID, getApplicationContext());
+        mAdapter = new ChatRoomAdapter(chatArrayList, firebaseUser.getUid(), getApplicationContext());
         recyclerView.setAdapter(mAdapter);
 
         // Firebase Realtime Database 값 읽어오기
@@ -121,15 +138,16 @@ public class chatRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String stText = msg_send_input.getText().toString();
-                FirebaseUser firebaseUser = mfirebaseAuth.getCurrentUser();
+
 
                 Calendar c = Calendar.getInstance();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss aa");
                 String datetime = dateFormat.format(c.getTime());
 
                 Hashtable<String, String> numbers = new Hashtable<String, String>();
-                numbers.put("userID", userID);
+                numbers.put("userID", firebaseUser.getUid());
                 numbers.put("text", stText);
+
 
                 mDatabaseRef.child(datetime).setValue(numbers);
 

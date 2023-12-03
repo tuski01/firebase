@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import net.flow9.dcjt.firebase.R;
 import net.flow9.dcjt.firebase.model.ChatModel;
 
@@ -18,11 +21,15 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     private Context context;
     private String userID = "";
     public int xxx;
+    private FirebaseAuth mfirebaseAuth;
+    private FirebaseUser firebaseUser;
 
     public ChatRoomAdapter(ArrayList<ChatModel> mDataset, String userID, Context context) {
         this.mDataset = mDataset;
         this.userID = userID;
         this.context = context;
+        mfirebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = mfirebaseAuth.getCurrentUser();
     }
 
 
@@ -45,7 +52,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     @Override
     public int getItemViewType(int position) {
         // return super.getItemViewType(position);
-        if (mDataset.get(position).getUserID().equals(userID)){
+        if (mDataset.get(position).getUserID().equals(firebaseUser.getUid())){
             return 1;
         } else {
             return 2;
@@ -66,7 +73,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position){
-        if(mDataset.get(position).getUserID().equals(userID)){
+        if(mDataset.get(position).getUserID().equals(firebaseUser.getUid())){
             holder.tvChat.setText(mDataset.get(position).getText());
         }else {
             holder.youChat.setText(mDataset.get(position).getText());

@@ -1,9 +1,12 @@
 package net.flow9.dcjt.firebase;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,9 +42,11 @@ public class Find_Object_detail extends AppCompatActivity implements OnMapReadyC
     private TextView find_object_content;
     private TextView find_object_writer;
     String ObjNum;
+    private Button chat_btn;
     private NaverMap mNaverMap;
     private MapView mapView;
     private String mapAddress;
+    private String Objwriter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +64,27 @@ public class Find_Object_detail extends AppCompatActivity implements OnMapReadyC
         find_object_date = findViewById(R.id.find_object_date);
         find_object_content = findViewById(R.id.find_object_content);
         find_object_writer = findViewById(R.id.find_object_writer);
+        chat_btn = findViewById(R.id.chat_btn);
 
         mapView = findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+
+        chat_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(indexActivity.userID == null){
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), chatRoomActivity.class);
+                    intent.putExtra("writer", find_object_writer.getText().toString());
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
 
 
 

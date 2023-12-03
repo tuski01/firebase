@@ -56,6 +56,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -120,11 +123,18 @@ public class Find_Post_Activity extends AppCompatActivity implements OnMapReadyC
     private NaverMap mNaverMap;
     private MapView mapView;
     private String mapAddress;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference mDatabaseRef;
+    private FirebaseAuth mfirebaseAuth;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_find);
         NaverMapSdk.getInstance(getApplicationContext()).setClient(new NaverMapSdk.NaverCloudPlatformClient("0sjriog3ai"));
+
+        // 파이어 베이스
+        mfirebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
         SharedPreferences sharedPre = this.getSharedPreferences("shared", Context.MODE_PRIVATE);
         String strEmail = sharedPre.getString("email", "");
@@ -329,7 +339,7 @@ public class Find_Post_Activity extends AppCompatActivity implements OnMapReadyC
         String date = date_view.getText().toString();
         String title = E_title.getText().toString();
         String contents = E_contents.getText().toString().trim();
-        String userID = indexActivity.userID;
+        String userID = mfirebaseAuth.getUid();
         String mapAdd = map_add.getText().toString();
 
 

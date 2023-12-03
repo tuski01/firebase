@@ -9,6 +9,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,11 +45,13 @@ public class Lost_Object_detail extends AppCompatActivity implements OnMapReadyC
     private TextView lost_object_Mcategory;
     private TextView lost_object_date;
     private TextView lost_object_content;
+    private TextView lost_object_writer;
     String ObjNum;
 
     private NaverMap mNaverMap;
     private MapView mapView;
     private String mapAddress;
+    private Button Chat_Btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +68,28 @@ public class Lost_Object_detail extends AppCompatActivity implements OnMapReadyC
         lost_object_Mcategory = findViewById(R.id.lost_object_Mcategory);
         lost_object_date = findViewById(R.id.lost_object_date);
         lost_object_content = findViewById(R.id.lost_object_content);
+        lost_object_writer = findViewById(R.id.lost_object_writer);
+        Chat_Btn = findViewById(R.id.chat_btn);
 
 
         mapView = findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+        Chat_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(indexActivity.userID == null){
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), chatRoomActivity.class);
+                    intent.putExtra("writer", lost_object_writer.getText().toString());
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 
 
@@ -89,6 +110,7 @@ public class Lost_Object_detail extends AppCompatActivity implements OnMapReadyC
                         final String title = jsonObject.getString("title");
                         final String lostdate = jsonObject.getString("lostdate");
                         final String content = jsonObject.getString("content");
+                        final String writer = jsonObject.getString("userId");
                         final String address = jsonObject.getString("address");
 
                         Toast.makeText(getApplicationContext(), "로드 성공", Toast.LENGTH_SHORT).show();
@@ -98,6 +120,7 @@ public class Lost_Object_detail extends AppCompatActivity implements OnMapReadyC
                         lost_object_Mcategory.setText(Mcategory);
                         lost_object_date.setText(lostdate);
                         lost_object_content.setText(content);
+                        lost_object_writer.setText(writer);
                         mapAddress=(address);
 
                         Log.d("Find_Object_detail", "address: " + mapAddress);

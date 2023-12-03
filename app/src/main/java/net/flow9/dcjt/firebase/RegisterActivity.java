@@ -70,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
                         FirebaseUser firebaseUser = mfirebaseAuth.getCurrentUser();
                         UserAccount userAccount = new UserAccount();
                         userAccount.setEmailId(firebaseUser.getEmail());
+                        userAccount.setIdToken(firebaseUser.getUid());
                         mDatabaseRef.child(firebaseUser.getUid()).setValue(userAccount);
                     }
                 });

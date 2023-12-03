@@ -55,6 +55,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -117,6 +119,7 @@ public class Lost_Post_Activity extends AppCompatActivity implements OnMapReadyC
     private MapView mapView;
     private String mapAddress;
     private TextView map_add;
+    private FirebaseAuth mfirebaseAuth;
 
 
 
@@ -126,6 +129,8 @@ public class Lost_Post_Activity extends AppCompatActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_lost);
         NaverMapSdk.getInstance(getApplicationContext()).setClient(new NaverMapSdk.NaverCloudPlatformClient("0sjriog3ai"));
+
+        mfirebaseAuth = FirebaseAuth.getInstance();
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             int permissionResult = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -333,7 +338,7 @@ public class Lost_Post_Activity extends AppCompatActivity implements OnMapReadyC
         String date = date_view.getText().toString();
         String title = E_title.getText().toString();
         String contents = E_contents.getText().toString().trim();
-        String userID = indexActivity.userID;
+        String userID = mfirebaseAuth.getUid();
         String mapAdd = map_add.getText().toString();
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
