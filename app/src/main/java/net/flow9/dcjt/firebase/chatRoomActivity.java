@@ -50,6 +50,7 @@ public class chatRoomActivity extends AppCompatActivity {
     private String userID;
     private ArrayList<ChatModel> chatArrayList;
     private String Room_name;
+    private String ObjNum, findpost, lostpost;
 
 
     @Override
@@ -66,7 +67,18 @@ public class chatRoomActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = mfirebaseAuth.getCurrentUser();
 
         userID = getIntent().getStringExtra("writer");
-        room_name = userID + " " + firebaseUser.getUid();
+        ObjNum = getIntent().getStringExtra("ObjNum");
+        findpost = getIntent().getStringExtra("find");
+        if( findpost != null){
+            room_name = findpost + " " + ObjNum + " " + userID + " " + firebaseUser.getUid() ;
+        } else {
+            lostpost = getIntent().getStringExtra("lost");
+            room_name = lostpost + " " + ObjNum + " " + userID + " " + firebaseUser.getUid() ;
+        }
+
+
+
+
 
         if(userID == null){
             mDatabaseRef = firebaseDatabase.getReference("Chat").child(Room_name);

@@ -79,6 +79,8 @@ public class Find_Object_detail extends AppCompatActivity implements OnMapReadyC
                     finish();
                 } else {
                     Intent intent = new Intent(getApplicationContext(), chatRoomActivity.class);
+                    intent.putExtra("find", "find");
+                    intent.putExtra("ObjNum", ObjNum);
                     intent.putExtra("writer", find_object_writer.getText().toString());
                     startActivity(intent);
                     finish();
