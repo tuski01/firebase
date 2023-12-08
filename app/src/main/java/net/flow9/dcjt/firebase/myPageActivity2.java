@@ -20,6 +20,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.w3c.dom.Text;
 
 
@@ -27,11 +30,17 @@ public class myPageActivity2 extends Fragment implements View.OnClickListener {
     private View view;
     private TextView btn_logout, nickname, find_Object_load, lost_Object_load, QnA, CS, Inquiry, User_information_update, app_setting;
     public String user_uid, img_name;
+    private FirebaseAuth mfirebaseAuth;
+    private FirebaseUser firebaseUser;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_mypage2, container, false);
+
+        mfirebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = mfirebaseAuth.getCurrentUser();
 
 
         find_Object_load = view.findViewById(R.id.find_Object_load);
@@ -45,7 +54,7 @@ public class myPageActivity2 extends Fragment implements View.OnClickListener {
         nickname = view.findViewById(R.id.nickname);
 
         nickname = (TextView) view.findViewById(R.id.nickname);
-        String userNickname = indexActivity.userNickname;
+        String userNickname = firebaseUser.getUid();
         nickname.setText(userNickname);
 
 
